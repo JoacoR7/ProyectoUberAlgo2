@@ -7,21 +7,21 @@ class UbicacionMovil:
 		self.nombre = nombre
 		self.direccion = direccion
 		self.monto = monto
-		
-def getNombre(self):
-	return self.nombre 
 
-    def setNombre(self,nombre):
-	    self.nombre = nombre
-	    
-    def getDireccion(self):
-	    return self.direccion  
+	def getNombre(self):
+		return self.nombre
 
-    def setDireccion(self,direccion):
-	    self.direccion = direccion
-	    
-    def getMonto(self):
-	    return self.monto  
+	def setNombre(self,nombre):
+		self.nombre = nombre
 
-    def setMonto(self,monto):
-	    self.monto = monto
+	def getDireccion(self):
+		return self.direccion  
+
+	def setDireccion(self,direccion):
+		self.direccion = direccion
+
+	def getMonto(self):
+		return self.monto  
+
+	def setMonto(self,monto):
+		self.monto = monto
