@@ -1,5 +1,3 @@
-import entidades.Direccion as dir  
-
 def crearDireccion():
     d = dir.Direccion()
     print("Ingrese la esquina 1: ")
@@ -15,4 +13,3 @@ def crearDireccion():
     dy = input()
     d.setDy(dy)
     return d
-
