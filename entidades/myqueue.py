@@ -1,5 +1,5 @@
-from algo1 import *
-from linkedlist import *
+from entidades.algo1 import *
+from entidades.linkedlist import *
 
 #First in - First out
 #Incorporo un nuevo elemento a la cola

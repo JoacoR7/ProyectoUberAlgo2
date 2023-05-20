@@ -1,7 +1,7 @@
-from dictionary import *
-from myqueue import *
-from linkedlist import *
-from mystack import *
+from entidades.dictionary import *
+from entidades.myqueue import *
+from entidades.linkedlist import *
+from entidades.mystack import *
 import math
 """Ejercicio 1
 Implementar la función crear grafo que dada una lista de vértices y una lista de aristas cree un grafo con la representación por 
@@ -12,7 +12,6 @@ Descripción: Implementa la operación crear grafo
 Entrada: LinkedList con la lista de vértices y LinkedList con la lista de aristas donde por cada par de elementos representa una 
 conexión entre dos vértices.
 Salida: retorna el nuevo grafo"""
-
 #EJERCICIO 1
 
 def createGraphx2(LV, LA): # representa la arista(v,w) en la lista de ady de v y w
@@ -538,13 +537,12 @@ def graph_Matriz(LV, LA):
 
 
 def printMatriz(matrix):
-  filas = len(matrix)
-  columnas = filas
-
-  for i in range(0, filas):
-    print("|", end="  ")
+    filas = len(matrix)
+    columnas = filas
+    for i in range(0, filas):
+        print("|", end="  ")
     for j in range(0, columnas):
-      print(matrix[i][j], end="  ")
+        print(matrix[i][j], end="  ")
     print("|")
 
 #EJERCICIO 14 -------- PRIM

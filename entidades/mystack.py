@@ -1,5 +1,5 @@
-from algo1 import *
-from linkedlist import *
+from entidades.algo1 import *
+from entidades.linkedlist import *
 
 #Last in - First out
 

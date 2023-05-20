@@ -1,3 +1,4 @@
+import servicios.MapaServicio as m
 def menu():
     opcion = 0
     while opcion != 9:
@@ -27,3 +28,4 @@ def menu():
         else:
             print("Opción inválida, por favor intente de nuevo, recuerde ingresar un número del 1 al 9")
         
+m.menuMapa()

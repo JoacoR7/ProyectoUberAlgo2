@@ -1,4 +1,4 @@
-from algo1 import *
+from entidades.algo1 import *
 class LinkedList:
   head=None
 class Node:
