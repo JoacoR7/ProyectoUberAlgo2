@@ -6,13 +6,7 @@ import entidades.algo1 as a
 
 """
 Dudas:
-    1* los numeros de las esquinas van en orden o puede ser cuaqluier numero? para ver como implementar mejor el arreglo donde se 
-    guardan ------ hay que determinar el tamaño al principio?
-    2* en cargarCalle dar la opcion de volver al menú principal en caso de no encontrar ninguna esquina q exista o mostrar el array 
-    de esquinas?
-    3* verifco si la calle que quiero agregar "ex,ey" existe ya en mano contraria ("ey,ex"), y en caso de que ya exista, los c deben 
-    ser =?
-    4* Para cargar el mapa, verificar que al menos existan dos esquinas?
+    1* los numeros de las esquinas PUEDEN SER CUALQUIER NUMERO
 """
 
 def menuMapa():
@@ -20,8 +14,8 @@ def menuMapa():
     esquinas = None
     LA = []
     while opcion != 3:
-        print(" 1: Cargar nueva esquina\n", 
-            "2: Cargar calle\n",
+        print(" 1: Cargar ubicación fija\n", 
+            "2: Cargar ubicación móvil\n",
             "3: Salir")
         
         opcion = input()
