@@ -1,4 +1,4 @@
-from linkedlist import *
+from entidades.linkedlist import *
 import math 
 
 """
