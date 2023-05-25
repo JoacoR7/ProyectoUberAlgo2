@@ -1,31 +1,12 @@
-import servicios.MapaServicio as m
-def menu():
-    opcion = 0
-    while opcion != 9:
-        print(" 1: Mostrar los usuarios\n", 
-            "2: Mostrar los autos\n",
-            "3: Mostrar los lugares\n",
-            "4: Mostrar las esquinas\n"
-            " 5: Crear un usuario\n",
-            "6: Crear un auto\n",
-            "9: Salir")
-        
-        opcion = input()
-        try:
-            opcion = int(opcion)
-        except ValueError:
-            pass
-        finally:
-            opcion = opcion
+import argparse
 
+parser = argparse.ArgumentParser(description="Hola")
+parser.add_argument("--load_fix_element", help="Crea una ubicación fija")
 
-        if opcion == 1:
-            print("Personas")
-        elif opcion == 2:
-            print("Autos")
-        elif opcion == 9:
-            print("¡Nos vemos!")
-        else:
-            print("Opción inválida, por favor intente de nuevo, recuerde ingresar un número del 1 al 9")
-        
-m.menuMapa()
+args = parser.parse_args()
+
+def a(b):
+    print(b)
+
+if args.load_fix_element:
+    a(args.load_fix_element)
