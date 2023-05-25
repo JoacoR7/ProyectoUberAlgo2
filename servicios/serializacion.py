@@ -1,4 +1,6 @@
 import pickle
+import entidades.linkedlist
+import entidades.algo1
 
 def serializarPersonas(P):
     try:
@@ -99,3 +101,54 @@ def borrarUbiFija():
         del(fichero)
     else:
         print("No se encontró el archivo")
+
+def buscarArchivo(name):
+    try:
+        fichero = open(name + ".txt")
+        found = True
+    except FileNotFoundError:
+        found = False
+        fichero = None
+    finally:
+        return found, fichero
+
+def extraerDatos():
+    _, fichero = buscarArchivo("datos")
+    if fichero != None:
+        lista =  fichero.readlines()
+        fichero.close()
+        return lista
+    
+    return None
+
+def extraerMatriz():
+    _, matriz = buscarArchivo("matriz")
+    if matriz != None:
+        filas = matriz.readlines()
+        listaAristas = entidades.linkedlist.LinkedList()
+        for i, fila in enumerate(filas):
+            x = fila.split(", ", len(filas))
+            del x[len(filas)]
+            extraerAristas(i+1, x, listaAristas)
+    entidades.linkedlist.printLista(listaAristas)
+
+            
+
+def extraerAristas(fila, secuencia, listaAristas):
+    columna = 1
+    for peso in secuencia:
+        try:
+            peso = int(peso)
+        except ValueError:
+            print("Secuencia incorrecta")
+            return
+        if peso != 0:
+            arista = entidades.algo1.Array(3)
+            arista[0] = fila
+            arista[1] = columna
+            arista[2] = peso
+            entidades.linkedlist.add(listaAristas, arista)
+        columna += 1
+
+
+
