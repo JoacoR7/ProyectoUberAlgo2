@@ -1,28 +1,40 @@
 from entidades.linkedlist import *
 import math 
 
-"""
-dictionary = Array(m,0)
-Nota: dictionary puede ser redefinido para lidiar con las colisiones por encadenamiento
-
-insert(D,key, value)
-Descripción: Inserta un key en una posición determinada por la función de hash (1) en el diccionario (dictionary). Resolver colisiones por 
-encadenamiento. En caso de keys duplicados se anexan a la lista.
-Entrada: el diccionario sobre el cual se quiere realizar la inserción y el valor del key a insertar 
-Salida: Devuelve D
-
-delete(D,key)
-Descripción: Elimina un key en la posición determinada por la función de hash (1) del diccionario (dictionary) 
-Poscondición: Se debe marcar como nulo el key a eliminar.  
-Entrada: El diccionario sobre el que se quiere realizar la eliminación y el valor del key que se va a eliminar.
-Salida: Devuelve D"""
-
 class dictionaryNode:
     value = None
     key = None
     nextNode = None
 class dictionary:
     head = None
+
+###########################                      PROYECTO                      ###################################
+
+#PARA UBI FIJA
+def insertInPos(dic, pos, key, value):     #value = (ex,dx,ey,dy)  key = H1, A2, etc.
+    if dic[pos] == None: #array en esa pos vacío
+        #creo una lista                                        
+        L = dictionary()
+        addDic(L,key,value)                               
+        dic[pos] = L                                           
+    else: #encadenamiento
+        addDic(dic[pos],key,value)
+    return dic 
+
+#PARA UBI MOVIL
+def insertUbiMovil(m,dic,k,key,value):     #value = [ (ex,dx,ey,dy), monto ] key = C1, P1, etc.
+    if dic[k] == None: #array en esa pos vacío
+        #creo una lista                                        
+        L = dictionary()
+        addDic(L,key,value)                               
+        dic[k] = L                                           
+    else: #encadenamiento
+        addDic(dic[k],key,value)
+    return dic 
+
+
+
+
 
 ###########################################            GRAFOS            ##########################################################
 #inserto los elementos en la posicion de su propio valor de key (pos==key)
@@ -46,19 +58,6 @@ def insertInOrderBFS(BFS, i, key, value):
     else: #encadenamiento
         addDic(BFS[i],key,value)
     return BFS 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def searchGrafo(dic,key,value):
     #busca si hay una arista entre (key,value)
