@@ -6,6 +6,7 @@ import entidades.algo1 as a
 import entidades.dictionary as d
 
 def createMap(length, A):
+    #length: cantidad de vértices
     dic = [None]*length
     hash = d.dictionary()
     hash.head = dic
@@ -14,10 +15,13 @@ def createMap(length, A):
 
 def fillSlots(map, A, length):
     arista = A.head
+    #Hacemos linear probing para evitar colisiones de vértices, de esta forma cada lista enlazada va a tener información de una sola esquina
     while arista != None:
         key = arista.value[0]
         slot = (key % length)-1
         inserted = False
+        #Creamos un array de longitud 2 que va a dar información sobre qué esquinas está conectado el vértice principal (de la lista), entonces si tenemos
+        #que la key es 5, y la arista es (2, 7), significa que el vértice 5 está conectado al vértice 2 (y en esa dirección) y que su peso es 7
         aristaAux = [None]*2
         aristaAux[0] = arista.value[1]
         aristaAux[1] = arista.value[2]
@@ -26,11 +30,12 @@ def fillSlots(map, A, length):
         node.value = aristaAux
         while not inserted:
             if map.head[slot] == None:
-                map.head[slot] = node 
+                lista = l.LinkedList()
+                lista.head = node
+                map.head[slot] = lista 
                 inserted = True
             else:
-                #linear probing (algo así)
-                nodeAux = map.head[slot]
+                nodeAux = map.head[slot].head
                 if nodeAux.key == arista.value[0]:
                     while not inserted:
                         if nodeAux.nextNode == None:
@@ -39,13 +44,52 @@ def fillSlots(map, A, length):
                         else:
                             nodeAux = nodeAux.nextNode
                 else:
+                    #linear probing
                     slot += 1
                     if slot == length:
                         slot = 0
         arista = arista.nextNode
 
+def existPath(map, e1, e2): 
+    dfs = g.convertToDFSTree(map, e1)
+    #busco en key = 0 porque esa es la posicion en el slot en donde voy a encontrar el arbol con raiz v1
+    path = g.searchGrafo(dfs, 0, e2)
+    return path
+    
+"""
 
+def existPathAux(G, v1, v2, visitedNodes, type = None):
+    if(v1 > len(G.slots) or v2 > len(G.slots)):
+        return False
+    
+    if visitedNodes != None:
+        if linkedlist.search(visitedNodes, v1) != None:
+            return False
 
+    
+    found = findConnection(G, v1, v2, type)
+
+    if found:
+        return True
+
+    linkedlist.add(visitedNodes, v1)
+
+    node = G.slots[v1 - 1]
+    if node != None:
+        node = node.head
+
+    while node != None:
+        if type == None:
+            found = existPathAux(G, node.value[1], v2, visitedNodes, type)
+        else:
+            found = existPathAux(G, node.value[1], v2, visitedNodes, type)
+        if found:
+            return True
+        node = node.nextNode
+
+    return False
+
+"""
 
 
 
