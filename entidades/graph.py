@@ -286,7 +286,7 @@ Salida: Devuelve una Lista de Adyacencia con la representación DFS del grafo re
 """
 
 def convertToDFSTree(grafo, u):
-    long = len(grafo)
+    long = len(grafo.head)
     #nuevo diccionario para guardar los vertices con su color, distancia y padre
     vertices = [None]*(long)
     arcosRetroceso = [None]*(long)
@@ -313,14 +313,15 @@ def convertToDFSTree(grafo, u):
         value = "white"
         insertInOrder(vertices, i, value) #inserto color     HEAD
 
-    DFS = [None]*(len(grafo)+1)
+    DFS = [None]*(len(grafo.head)+1)
     for i in range (0,long):
         if vertices[i].head.value == "white":
 
             if i != 0: #si es igual a 0 es el caso de el primer vertice = RAIZ
                 u = vertices[i].head.key
             j += 1
-            DFS = convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
+            DFS = convertToDFSTreeR(grafo,u-1,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
+    printDic(DFS)
     return DFS
 
 
@@ -329,24 +330,25 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
     time += 1
     vertices[u].head.value = "grey" 
     vertices[u].head.nextNode.value = time
+    #TODO: REVISAR ESTO
+    long = length(grafo.head[u])
 
-    long = length(grafo[u])
 
-    if grafo[u].head.value != -1:
-        currentGrafo = grafo[u].head
+    if grafo.head[u] != None:
+        currentGrafo = grafo.head[u].head
         currentVertices = vertices[u].head
 
         for i in range(0,long):
-            key = currentGrafo.value
+            key = currentGrafo.value[0] - 1
     
             if vertices[key].head.value == "white":
-                vertices[key].head.nextNode.nextNode.value = u
-                insertInOrderBFS(DFS, j, u, key)
+                vertices[key].head.nextNode.nextNode.value = u 
+                insertInOrderBFS(DFS, j, u+1, key+1)
                 convertToDFSTreeR(grafo,key,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
             #ARCO RETROCESO
             elif vertices[key].head.value == "grey":
                 arcosRetroceso_T_o_F = True
-                insertInOrder(arcosRetroceso, key, u)
+                insertInOrder(arcosRetroceso, key+1, u+1)
                 insertInOrder(arcosRetroceso, u, key)
             #ARCO AVANCE O CRUCE
             elif vertices[key].head.value == "black":
@@ -355,10 +357,10 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
                 
                 #Son aristas (u,v) que no son parte del árbol y conectan u a un descendiente v (vértice sucesor).
                 if vertices[u].head.nextNode.value < vertices[key].head.nextNode.value:
-                    insertInOrder(arcoAvance, u, key)
+                    insertInOrder(arcoAvance, u+1, key+1)
                 else:
                 #Pueden ir entre vértices dentro de un mismo árbol (siempre que v no sea ancestro de u), o entre distintos árboles DFS.            
-                    insertInOrder(arcoCruce, u, key)
+                    insertInOrder(arcoCruce, u+1, key+1)
 
             currentGrafo = currentGrafo.nextNode
             
@@ -370,7 +372,7 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
     else:
         #caso en que un vertice no esta conectado con ningun otro vertice
         key = u
-        insertInOrderBFS(DFS, j, u, None)
+        insertInOrderBFS(DFS, j, u+1, None)
     return DFS
 
 
