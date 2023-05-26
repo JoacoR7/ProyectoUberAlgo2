@@ -3,43 +3,56 @@ import entidades.myqueue as q
 import entidades.linkedlist as l
 import entidades.mystack as s
 import entidades.algo1 as a
+import entidades.dictionary as d
 
-"""
-Dudas:
-    1* los numeros de las esquinas PUEDEN SER CUALQUIER NUMERO
-"""
+def createMap(length, A):
+    dic = [None]*length
+    hash = d.dictionary()
+    hash.head = dic
+    fillSlots(hash, A, length)
+    return hash
 
-def menuMapa():
-    opcion = 0
-    esquinas = None
-    LA = []
-    while opcion != 3:
-        print(" 1: Cargar ubicación fija\n", 
-            "2: Cargar ubicación móvil\n",
-            "3: Salir")
-        
-        opcion = input()
-        try:
-            opcion = int(opcion)
-        except ValueError:
-            pass
-        finally:
-            opcion = opcion
-
-        if opcion == 1:
-            esquinas = cargarEsquina()
-            print("¡Listo! Esquina cargada.")
-        elif opcion == 2:
-            if esquinas == None:
-                print("Primero debe cargar las esquinas")
+def fillSlots(map, A, length):
+    arista = A.head
+    while arista != None:
+        key = arista.value[0]
+        slot = (key % length)-1
+        inserted = False
+        aristaAux = [None]*2
+        aristaAux[0] = arista.value[1]
+        aristaAux[1] = arista.value[2]
+        node = d.dictionaryNode()
+        node.key = key
+        node.value = aristaAux
+        while not inserted:
+            if map.head[slot] == None:
+                map.head[slot] = node 
+                inserted = True
             else:
-                calles = cargarCalle(esquinas,LA)
-                print("¡Listo! Calle cargada.")
-        elif opcion == 3:
-            graph_Matriz1(esquinas, LA) #creo el mapa
-            print("Map created successfully.")
-        else:
-            print("Opción inválida, por favor intente de nuevo, recuerde ingresar un número del 1 al 3")
+                #linear probing (algo así)
+                nodeAux = map.head[slot]
+                if nodeAux.key == arista.value[0]:
+                    while not inserted:
+                        if nodeAux.nextNode == None:
+                            nodeAux.nextNode = node
+                            inserted = True
+                        else:
+                            nodeAux = nodeAux.nextNode
+                else:
+                    slot += 1
+                    if slot == length:
+                        slot = 0
+        arista = arista.nextNode
+
+
+
+
+
+
+
+
+
+
 
 
 def graph_Matriz1(LV, LA): 

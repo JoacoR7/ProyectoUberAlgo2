@@ -130,7 +130,7 @@ def extraerMatriz():
             x = fila.split(", ", len(filas))
             del x[len(filas)]
             extraerAristas(i+1, x, listaAristas)
-    entidades.linkedlist.printLista(listaAristas)
+    return len(filas), listaAristas
 
             
 
