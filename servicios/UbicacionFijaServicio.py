@@ -2,9 +2,13 @@ import entidades.UbicacionFija as uf
 import servicios.DireccionServicio as ds
 import entidades.dictionary as dic
 
-def crearUbiFija(cantidadV,mapa):
-    print("Ingrese el nombre de la ubicación fija: ")
+def crearUbiFija(dicF,cantidadV,mapa):
+
+    print("Ingrese el nombre de la ubicación fija: ")  #afuera en un menu
     nombre = input()
+    if uf.existeUbicacion(dicF,nombre,13) != None:
+        print(nombre, "ya existe en el mapa, intente nuevamente") #esto tmb
+
     dir = ds.crearDireccion(cantidadV,mapa)
     if dir == False:
         while dir == False:

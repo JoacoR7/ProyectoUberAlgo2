@@ -10,6 +10,7 @@ def crearDireccion(v,mapa):
     print("Ingrese la esquina 2: ")
     ey = input()
 
+
     print("Ingrese la distancia a la esquina 2: ")
     dy = input()
 
