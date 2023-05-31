@@ -2,18 +2,21 @@ import entidades.UbicacionFija as uf
 import servicios.DireccionServicio as ds
 import entidades.dictionary as dic
 
-#dic = [None]*7
-
-def crearUbiFija():
+def crearUbiFija(cantidadV,mapa):
     print("Ingrese el nombre de la ubicación fija: ")
     nombre = input()
-    dir = ds.crearDireccion()
+    dir = ds.crearDireccion(cantidadV,mapa)
+    if dir == False:
+        while dir == False:
+            print("La dirección ingresada es inválida, intente nuevamente")
+            dir = ds.crearDireccion(cantidadV,mapa)
     
-    if dir != False:
-        pos = calcularPos(nombre)
-        dic.insertInPos(dic, pos, nombre, dir)
-    else:
-        print("Dirección inválida")                   ###ver
+
+    pos = calcularPos(nombre)
+    dicUF = [None]*7
+    dic.insertInPos(dicUF, pos, nombre, dir)
+    dic.printDic(dicUF)
+
 
 def searchUbiFija(dic,nombre): #dado el nombre de la ubicacion, busca la dirección (si es que existe)
     pos = calcularPos(nombre)
