@@ -1,23 +1,29 @@
 import entidades.UbicacionFija as uf
 import servicios.DireccionServicio as ds
 import entidades.dictionary as dic
+import servicios.UbicacionMovilServicio as um
 
-def crearUbiFija(dicF,cantidadV,mapa):
 
-    print("Ingrese el nombre de la ubicación fija: ")  #afuera en un menu
-    nombre = input()
-    if uf.existeUbicacion(dicF,nombre,13) != None:
-        print(nombre, "ya existe en el mapa, intente nuevamente") #esto tmb
+#falta: cantidadV, map, dicF
+
+def load_fix_element(nombre,direccion):
+    
+    #dicuF = [None]*7 SOLO TENGO QUE CREARLO UNA VEZ
+
+    while searchUbiFija(dicuF,nombre) != None:
+        print(nombre, "ya existe en el mapa, intente nuevamente: ")
+        nombre = input()
 
     dir = ds.crearDireccion(cantidadV,mapa)
+
     if dir == False:
         while dir == False:
             print("La dirección ingresada es inválida, intente nuevamente")
             dir = ds.crearDireccion(cantidadV,mapa)
     
 
+    #AGREGO AL DIC
     pos = calcularPos(nombre)
-    dicUF = [None]*7
     dic.insertInPos(dicUF, pos, nombre, dir)
     dic.printDic(dicUF)
 
@@ -36,9 +42,6 @@ def searchUbiFija(dic,nombre): #dado el nombre de la ubicacion, busca la direcci
             return False
         else:
             return current.value #devuelve la dirección
-
-
-#search que dada una direccion, devolver si se encuentra algo ahí??
 
 def calcularPos(nombre):
     letra = nombre[0]
