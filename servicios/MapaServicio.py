@@ -55,7 +55,42 @@ def existPath(map, e1, e2):
     #busco en key = 0 porque esa es la posicion en el slot en donde voy a encontrar el arbol con raiz v1
     path = g.searchGrafo(dfs, 0, e2)
     return path
-    
+
+def cálculosIniciales(map):
+    slots = map.head
+    long = len(slots)
+    datos = [[None]*long, [None]*long]
+    for i in range(0,long):
+        if slots[i] != None:
+            key = slots[i].head.key
+            lista = l.LinkedList()
+            datos[1][i] = lista
+        else:
+            key = None
+        datos[0][i] = key
+    for i in range(0, long):
+        inicio = slots[i]
+        if inicio != None:
+            inicio = inicio.head.key
+            for j in range(0, long):
+                if i != j:
+                    fin = slots[j]
+                    found = False
+                    if fin != None:
+                        fin = fin.head.key
+                        found = existPath(map, inicio, fin)
+                    if found:
+                        dato = [0]*2
+                        dato[0] = fin
+                        _, distancia = g.shortestPath(map, inicio, fin)
+                        dato[1] = distancia[j]
+                        l.add(datos[1][i],dato)
+    print("")
+    return datos
+
+
+
+
 
 
 

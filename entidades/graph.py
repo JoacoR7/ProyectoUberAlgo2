@@ -321,7 +321,6 @@ def convertToDFSTree(grafo, u):
                 u = vertices[i].head.key
             j += 1
             DFS = convertToDFSTreeR(grafo,u-1,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
-    printDic(DFS)
     return DFS
 
 
