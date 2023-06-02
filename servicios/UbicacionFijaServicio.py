@@ -1,5 +1,5 @@
 import entidades.UbicacionFija as uf
-import servicios.DireccionServicio as ds
+import servicios.CargarDireccionServicio as ds
 import entidades.dictionary as dic
 import servicios.UbicacionMovilServicio as um
 
