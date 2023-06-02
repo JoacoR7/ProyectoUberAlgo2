@@ -321,7 +321,6 @@ def convertToDFSTree(grafo, u):
                 u = vertices[i].head.key
             j += 1
             DFS = convertToDFSTreeR(grafo,u-1,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
-    printDic(DFS)
     return DFS
 
 
@@ -761,18 +760,18 @@ def graph_Matriz_D(LV, LA):
     return matriz 
 
 def initRelax(grafo,s): #distancia
-    vertice = [None]*len(grafo)
-    for i in range(0,len(grafo)):
-        if i != s:
+    vertice = [None]*len(grafo.head)
+    for i in range(0,len(grafo.head)):
+        if i != s-1:
             vertice[i]=float('inf')
         else:
             vertice[i]=0
     return vertice
 
 def initRelax2(grafo,s): #padre
-    vertice = [None]*len(grafo)
-    for i in range(0,len(grafo)):
-        if i != s:
+    vertice = [None]*len(grafo.head)
+    for i in range(0,len(grafo.head)):
+        if i != s-1:
             vertice[i]=None
     return vertice
 
@@ -810,33 +809,57 @@ def minQueue(v):
     return Q
 
 
+def relax(grafo,vertice,u,v,verticeP,distancias):
+    if vertice[u] + v[1] < vertice[v[0]-1]:
+        vertice[v[0]-1]= vertice[u]+ v[1]
+        verticeP[v[0]-1] = u + 1
+        distancias[v[0]-1] = vertice[u]+ v[1]
+    return
+
+"""
 def relax(grafo,vertice,u,v,verticeP):
     if vertice[u] + grafo[u][v] < vertice[v]:
         vertice[v]= vertice[u]+ grafo[u][v]
         verticeP[v] = u
     return
+"""
 
 def camino(verticeP,s,v):
+    v -= 1
     if verticeP[v] == None:
         return None
     else:
-        llegada = v
+        llegada = v + 1
         camino = LinkedList()
-        add(camino,v)
+        add(camino,v+1)
         while llegada != s:
             llegada = verticeP[v]
             add(camino,llegada)
-            v = llegada
+            v = llegada - 1
         return camino
 
 def shortestPath(grafo, s, v):
     vertice = initRelax(grafo,s) #distancia
     verticeP = initRelax2(grafo,s) #padre
     verticeAux = vertice
-    visitado = [None]*len(grafo)
+    visitado = [None]*len(grafo.head)
+    distancias = [0]*len(vertice)
     Q = minQueue(vertice)
+    while length(Q) > 0:
+        u = dequeue(Q)
+        node = grafo.head[u]
+        if node != None:
+            node = node.head
+        while node != None:
+            if visitado[node.value[0]-1] == None:
+                relax(grafo,vertice,u,node.value,verticeP, distancias)
+            node = node.nextNode
+        visitado[u] = u + 1
+        verticeAux[u] = None
+        Q = minQueue(verticeAux)
+    return camino(verticeP,s,v), distancias
 
-
+"""
     while length(Q) > 0:
         u = dequeue(Q)
         for i in range(0,len(grafo)):
@@ -846,6 +869,4 @@ def shortestPath(grafo, s, v):
         visitado[u] = u
         verticeAux[u] = None
         Q = minQueue(verticeAux)
-
-    return camino(verticeP,s,v)
-
+"""

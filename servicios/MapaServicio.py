@@ -1,9 +1,9 @@
-import entidades.graph as g
 import entidades.myqueue as q
 import entidades.linkedlist as l
 import entidades.mystack as s
 import entidades.algo1 as a
 import entidades.dictionary as d
+import entidades.graph as g
 
 def createMap(length, A):
     #length: cantidad de vértices
@@ -55,41 +55,38 @@ def existPath(map, e1, e2):
     #busco en key = 0 porque esa es la posicion en el slot en donde voy a encontrar el arbol con raiz v1
     path = g.searchGrafo(dfs, 0, e2)
     return path
-    
-"""
 
-def existPathAux(G, v1, v2, visitedNodes, type = None):
-    if(v1 > len(G.slots) or v2 > len(G.slots)):
-        return False
-    
-    if visitedNodes != None:
-        if linkedlist.search(visitedNodes, v1) != None:
-            return False
-
-    
-    found = findConnection(G, v1, v2, type)
-
-    if found:
-        return True
-
-    linkedlist.add(visitedNodes, v1)
-
-    node = G.slots[v1 - 1]
-    if node != None:
-        node = node.head
-
-    while node != None:
-        if type == None:
-            found = existPathAux(G, node.value[1], v2, visitedNodes, type)
+def cálculosIniciales(map):
+    slots = map.head
+    long = len(slots)
+    datos = [[None]*long, [None]*long]
+    for i in range(0,long):
+        if slots[i] != None:
+            key = slots[i].head.key
+            lista = l.LinkedList()
+            datos[1][i] = lista
         else:
-            found = existPathAux(G, node.value[1], v2, visitedNodes, type)
-        if found:
-            return True
-        node = node.nextNode
-
-    return False
-
-"""
+            key = None
+        datos[0][i] = key
+    for i in range(0, long):
+        inicio = slots[i]
+        if inicio != None:
+            inicio = inicio.head.key
+            for j in range(0, long):
+                if i != j:
+                    fin = slots[j]
+                    found = False
+                    if fin != None:
+                        fin = fin.head.key
+                        found = existPath(map, inicio, fin)
+                    if found:
+                        dato = [0]*2
+                        dato[0] = fin
+                        _, distancia = g.shortestPath(map, inicio, fin)
+                        dato[1] = distancia[j]
+                        l.add(datos[1][i],dato)
+    print("")
+    return datos
 
 
 
