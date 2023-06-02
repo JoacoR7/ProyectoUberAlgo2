@@ -3,29 +3,22 @@ import servicios.CargarDireccionServicio as ds
 import entidades.dictionary as dic
 import servicios.UbicacionMovilServicio as um
 
-
-#falta: cantidadV, map, dicF
+dicuF = None  # Variable global para almacenar la estructura dicP
 
 def load_fix_element(nombre,direccion):
     
-    #dicuF = [None]*7 SOLO TENGO QUE CREARLO UNA VEZ
-
-    while searchUbiFija(dicuF,nombre) != None:
+    global dicuF
+    if dicuF is None:
+        dicuF = [None]*7 
+    dic.printDic(dicuF)
+    while searchUbiFija(dicuF,nombre) != False:
         print(nombre, "ya existe en el mapa, intente nuevamente: ")
         nombre = input()
-
-    dir = ds.crearDireccion(cantidadV,mapa)
-
-    if dir == False:
-        while dir == False:
-            print("La dirección ingresada es inválida, intente nuevamente")
-            dir = ds.crearDireccion(cantidadV,mapa)
     
-
     #AGREGO AL DIC
     pos = calcularPos(nombre)
-    dic.insertInPos(dicUF, pos, nombre, dir)
-    dic.printDic(dicUF)
+    dic.insertInPos(dicuF, pos, nombre, direccion)
+    dic.printDic(dicuF)
 
 
 def searchUbiFija(dic,nombre): #dado el nombre de la ubicacion, busca la dirección (si es que existe)

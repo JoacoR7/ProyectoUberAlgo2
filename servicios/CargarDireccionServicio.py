@@ -20,7 +20,7 @@ def cargarUbicacion(v,mapa):
         if opcion == 1:
             print("Nombre:")
             nombre = input()
-            print("Dirección ({<ex, 10>, <ey, 5>}):")
+            print("Dirección ({<ex, dx>, <ey, dy>}):")
             direccion = input()
             direccion = existeDir(v,mapa,direccion) 
             if direccion != False:
@@ -28,9 +28,18 @@ def cargarUbicacion(v,mapa):
             else:
                 print("La dirección ingresada no existe, intente nuevamente")
         elif opcion == 2:
-            print("")
+            print("Nombre:")
+            nombre = input()
+            print("Dirección ({<ex, dx>, <ey, dy>}):")
+            direccion = input()
+            direccion = existeDir(v,mapa,direccion) 
+            if direccion != False:
+                uf.load_fix_element(nombre,direccion)
+            else:
+                print("La dirección ingresada no existe, intente nuevamente")
         elif opcion == 3:
             fin == True
+            print("¡Ubicaciones creadas!")
         else:
             print("Opción incorrecta, por favor intente de nuevo")
 
