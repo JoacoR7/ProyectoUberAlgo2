@@ -53,3 +53,4 @@ def calcularPos(nombre):
     elif letra == "T":
         pos = 6
     return pos
+

@@ -16,7 +16,7 @@ def load_movil_element(nombre, direccion):
     if dicC is None:
         dicC = [None] * 13  # Creo la estructura dicC solo la primera vez
 
-    while existeUbicacion(dicC,nombre,13) != None:
+    while searchUbiMovil(dicC,nombre,13) != None:
         print(nombre, "ya existe en el mapa, intente nuevamente con otro nombre: ")
         nombre = input()
     
@@ -53,7 +53,7 @@ def addDicP(dicP,m,nombre,monto,dir):
 
 
 #Para verificar si esa ubicacion ya existe (ej: si quieren agregar un C1 pero este ya está agregado)
-def existeUbicacion(dic,nombre,m):
+def searchUbiMovil(dic,nombre,m):
     k = int(nombre[1:]) % m #slot
     if dic[k] == None:
         return None
@@ -66,4 +66,5 @@ def existeUbicacion(dic,nombre,m):
         if current == None:
             return None
         else:
-            return current.value
+            return current.value[0] #devuelvo direccion y monto
+        
