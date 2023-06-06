@@ -1,24 +1,26 @@
-import servicios.DireccionServicio as ds
+import servicios.CargarDireccionServicio as ds
 import entidades.dictionary as dic
 
-#como le paso cantidadV y map
-#donde crear dicC y dicP
 
-#falta: dicC,cantidadV,mapa
+dicC = None
+dicP = None  # Variable global para almacenar la estructura dicP
 
-def load_movil_element(nombre,direccion): 
+def load_movil_element(nombre, direccion):
 
-    while existeUbicacion(dicC,nombre,13) != None:
-        print(nombre, "ya existe en el mapa, intente nuevamente: ")
-        nombre = input()
+    global dicP  # Declaro que estoy utilizando la variable global dicP
+    global dicC
 
-    dir = ds.crearDireccion(cantidadV,mapa)   #       ---> consulta
-
-    if dir == False:
-        while dir == False:
-            print("La ubicación ingresada es inválida, intente nuevamente")
-            dir = ds.crearDireccion(cantidadV,mapa)
+    if dicP is None:
+        dicP = [None] * 13  # Creo la estructura dicP solo la primera vez
     
+    if dicC is None:
+        dicC = [None] * 13  # Creo la estructura dicC solo la primera vez
+
+    while searchUbiMovil(dicC,nombre,13) != None:
+        print(nombre, "ya existe en el mapa, intente nuevamente con otro nombre: ")
+        nombre = input()
+    
+
     while True:
         try:
             monto = float(input("Ingrese el monto: "))
@@ -30,26 +32,28 @@ def load_movil_element(nombre,direccion):
             print("Error: El valor ingresado no es válido. Intente nuevamente.")
 
     #agrego al dic
-    if nombre[0] == "C": addDicC(dicC,13)
-    else: addDicP(dicP,13)
+    if nombre[0] == "C": 
+        addDicC(dicC,13,nombre,monto,direccion)
+    else: 
+        addDicP(dicP,13,nombre,monto,direccion)
 
-    def addDicC(dicC,m):
+def addDicC(dicC,m,nombre,monto,dir):
         k = int(nombre[1:])
         k = k % m
         value = [dir, monto]                               
         dic.insertUbiMovil(m,dicC,k,nombre,value)
-        #dic.printDic(dicC)
+        dic.printDic(dicC)
 
 
-    def addDicP(dicP,m):
+def addDicP(dicP,m,nombre,monto,dir):
         k = int(nombre[1:])
         value = [dir, monto]                               
         dic.insertUbiMovil(m,dicP,k,nombre,value)
-        #dic.printDic(dicP)
+        dic.printDic(dicP)
 
 
 #Para verificar si esa ubicacion ya existe (ej: si quieren agregar un C1 pero este ya está agregado)
-def existeUbicacion(dic,nombre,m):
+def searchUbiMovil(dic,nombre,m):
     k = int(nombre[1:]) % m #slot
     if dic[k] == None:
         return None
@@ -62,4 +66,5 @@ def existeUbicacion(dic,nombre,m):
         if current == None:
             return None
         else:
-            return current.value
+            return current.value[0] #devuelvo direccion y monto
+        
