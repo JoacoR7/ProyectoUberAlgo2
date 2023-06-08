@@ -10,10 +10,15 @@ def createMap(length, A):
     dic = [None]*length
     hash = d.dictionary()
     hash.head = dic
-    fillSlots(hash, A, length)
-    return hash
 
-def fillSlots(map, A, length):
+    dic2 = [None]*length      #
+    mapAux = d.dictionary()   #
+    mapAux.head = dic2        #
+
+    fillSlots(hash, mapAux, A, length)
+    return hash, mapAux
+
+def fillSlots(map,mapAux,A, length):
     arista = A.head
     #Hacemos linear probing para evitar colisiones de vértices, de esta forma cada lista enlazada va a tener información de una sola esquina
     while arista != None:
@@ -25,24 +30,43 @@ def fillSlots(map, A, length):
         aristaAux = [None]*2
         aristaAux[0] = arista.value[1]
         aristaAux[1] = arista.value[2]
+
+        arista2 = [None]*2       #
+        arista2[0] = 0           #
+        arista2[1] = None        #
+
         node = d.dictionaryNode()
         node.key = key
         node.value = aristaAux
+
+        node2 = d.dictionaryNode() #
+        node2.key = key            #   
+        node2.value = arista2      #
+
         while not inserted:
             if map.head[slot] == None:
                 lista = l.LinkedList()
                 lista.head = node
                 map.head[slot] = lista 
                 inserted = True
+
+                lista2 = l.LinkedList() #
+                lista2.head = node2     #        
+                mapAux.head[slot] = lista2 #
+                
+
             else:
-                nodeAux = map.head[slot].head
+                nodeAux = map.head[slot].head #
+                nodeAux2 = mapAux.head[slot].head 
                 if nodeAux.key == arista.value[0]:
                     while not inserted:
                         if nodeAux.nextNode == None:
                             nodeAux.nextNode = node
+                            nodeAux2.nextNode = node2 #
                             inserted = True
                         else:
                             nodeAux = nodeAux.nextNode
+                            nodeAux2 = nodeAux2.nextNode #
                 else:
                     #linear probing
                     slot += 1
@@ -51,7 +75,6 @@ def fillSlots(map, A, length):
         arista = arista.nextNode
 
 #PARA VER EL MAPA EN CONSOLA (despues borrar)
-    printMap(map)
 def printMap(map):
     n = len(map.head)
     for i in range (0,n):

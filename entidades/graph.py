@@ -857,13 +857,14 @@ def camino(verticeP,s,v):
             v = llegada - 1
         return camino
 
-def shortestPath(grafo, s, v):
+def shortestPath(grafo,mapAux, s, v):
     vertice = initRelax(grafo,s) #distancia, padre
     #verticeP = initRelax2(grafo,s) #padre
     verticeAux = vertice.copy()
-    #####visitado seria el value[1] y distancias el value[0]
-    distancias = [0]*len(vertice)
-    visitado = [None]*len(grafo.head)
+    #####visitado seria el value[1] y distancias el value[0] ---> visitDist
+    #distancias = [0]*len(vertice)
+    #visitado = [None]*len(grafo.head)
+    visitDist = mapAux
     Q = minQueue(vertice)
     printLista(Q)
     longitud = len(grafo.head)
@@ -875,18 +876,20 @@ def shortestPath(grafo, s, v):
             node = node.head
         while node != None:
             slot = (node.value[0]-1 % longitud)-1 #slot del visitado
-            if visitado[slot] == None:
-                relax(grafo,vertice,u,node.value,distancias)
+            if visitDist.head[slot] == None: #visitado(1)
+                relax(grafo,vertice,u,node.value,visitDist) #distancia
             node = node.nextNode
         slot = (u % longitud)-1
-        visitado[slot].value[0] = u + 1
+        visitDist.head[slot].value[1] = u + 1 #visitado
         verticeAux[slot].value[0] = None #value[0]=distancia
         Q = minQueue(verticeAux)
-    return camino(vertice,s,v), distancias
+    return camino(vertice,s,v), visitDist #distancia
+
     #ARREGLAR TODO EN FUNCION A LA FUNCION DE BUSCAR VERTICE (CON EL LINEAR PROBING):
     #en todos los casos que llamo a un hash con su slot deberia verificar si es el correspondiente
     #y sino aplicar linear probing
     #ver el tema de la distancia entre las esquinas (¿sumarlas antes o despues?)
+
 """
     while length(Q) > 0:
         u = dequeue(Q)

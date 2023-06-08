@@ -9,8 +9,10 @@ import entidades.graph as g
 import servicios.CargarDireccionServicio as cd
 #servicios.serializacion.serializarPersonas(["A", "B", "C"])
 cantidadV, aristas = servicios.serializacion.extraerMatriz()
-map = ms.createMap(cantidadV, aristas)
-g.shortestPath(map, 7, 4)
+map, mapAux = ms.createMap(cantidadV, aristas)
+ms.printMap(map)
+ms.printMap(mapAux)
+g.shortestPath(map, mapAux 7, 4)
 print("")
 
 
