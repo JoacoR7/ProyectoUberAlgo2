@@ -49,7 +49,16 @@ def fillSlots(map, A, length):
                     if slot == length:
                         slot = 0
         arista = arista.nextNode
-    print(map.head)
+
+#PARA VER EL MAPA EN CONSOLA (despues borrar)
+    printMap(map)
+def printMap(map):
+    n = len(map.head)
+    for i in range (0,n):
+        if map.head[i] != None:
+            print('Posicion ', i)
+            l.printListaX2(map.head[i])
+
 def existPath(map, e1, e2): 
     dfs = g.convertToDFSTree(map, e1)
     #busco en key = 0 porque esa es la posicion en el slot en donde voy a encontrar el arbol con raiz v1

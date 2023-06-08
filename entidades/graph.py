@@ -3,6 +3,7 @@ from entidades.myqueue import *
 from entidades.linkedlist import *
 from entidades.mystack import *
 import math
+import servicios.MapaServicio as ms
 """Ejercicio 1
 Implementar la función crear grafo que dada una lista de vértices y una lista de aristas cree un grafo con la representación por 
 Lista de Adyacencia.
@@ -759,7 +760,22 @@ def graph_Matriz_D(LV, LA):
                 matriz[i][j] = 0         
     return matriz 
 
-def initRelax(grafo,s): #distancia
+def initRelax(grafo,s): #distancia y padre
+    vertice = grafo.head.copy()
+    for i in range(0,len(grafo.head)):
+        if i != s-1:
+            if vertice[i]!=None:
+                vertice[i].head.value[0] = float('inf')
+                vertice[i].head.value[1] = None
+        else:
+            if vertice[i]!=None:
+                vertice[i].head.value[0] = 0
+                vertice[i].head.value[1] = None
+    printDic(vertice)
+    return vertice
+
+
+"""def initRelax(grafo,s): #distancia
     vertice = [None]*len(grafo.head)
     for i in range(0,len(grafo.head)):
         if i != s-1:
@@ -773,7 +789,7 @@ def initRelax2(grafo,s): #padre
     for i in range(0,len(grafo.head)):
         if i != s-1:
             vertice[i]=None
-    return vertice
+    return vertice"""
 
 def minQueue(v):
     Q = LinkedList()
@@ -781,8 +797,8 @@ def minQueue(v):
         if v[i] != None:
             current = Q.head
             Node = PriorityNode()
-            Node.value = i        #vertice
-            Node.priority = v[i]  #distancia
+            Node.value = v[i].head.key        #vertice
+            Node.priority = v[i].head.value[0]  #distancia
 
             priority = Node.priority
             if current == None:
@@ -826,39 +842,51 @@ def relax(grafo,vertice,u,v,verticeP):
 
 def camino(verticeP,s,v):
     v -= 1
-    if verticeP[v] == None:
+    longitud = len(verticeP)
+    slot = (v % longitud)-1
+    if verticeP[slot] == None:
         return None
     else:
         llegada = v + 1
         camino = LinkedList()
-        add(camino,v+1)
+        add(camino,llegada)
         while llegada != s:
-            llegada = verticeP[v]
+            slot = (v % longitud)-1
+            llegada = verticeP[slot].value[1]
             add(camino,llegada)
             v = llegada - 1
         return camino
 
 def shortestPath(grafo, s, v):
-    vertice = initRelax(grafo,s) #distancia
-    verticeP = initRelax2(grafo,s) #padre
-    verticeAux = vertice
-    visitado = [None]*len(grafo.head)
+    vertice = initRelax(grafo,s) #distancia, padre
+    #verticeP = initRelax2(grafo,s) #padre
+    verticeAux = vertice.copy()
+    #####visitado seria el value[1] y distancias el value[0]
     distancias = [0]*len(vertice)
+    visitado = [None]*len(grafo.head)
     Q = minQueue(vertice)
+    printLista(Q)
+    longitud = len(grafo.head)
     while length(Q) > 0:
         u = dequeue(Q)
-        node = grafo.head[u]
+        slot = (u % longitud)-1
+        node = grafo.head[slot]    ###
         if node != None:
             node = node.head
         while node != None:
-            if visitado[node.value[0]-1] == None:
-                relax(grafo,vertice,u,node.value,verticeP, distancias)
+            slot = (node.value[0]-1 % longitud)-1 #slot del visitado
+            if visitado[slot] == None:
+                relax(grafo,vertice,u,node.value,distancias)
             node = node.nextNode
-        visitado[u] = u + 1
-        verticeAux[u] = None
+        slot = (u % longitud)-1
+        visitado[slot].value[0] = u + 1
+        verticeAux[slot].value[0] = None #value[0]=distancia
         Q = minQueue(verticeAux)
-    return camino(verticeP,s,v), distancias
-
+    return camino(vertice,s,v), distancias
+    #ARREGLAR TODO EN FUNCION A LA FUNCION DE BUSCAR VERTICE (CON EL LINEAR PROBING):
+    #en todos los casos que llamo a un hash con su slot deberia verificar si es el correspondiente
+    #y sino aplicar linear probing
+    #ver el tema de la distancia entre las esquinas (¿sumarlas antes o despues?)
 """
     while length(Q) > 0:
         u = dequeue(Q)

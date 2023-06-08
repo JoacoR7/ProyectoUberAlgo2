@@ -12,6 +12,14 @@ def printLista(L):
     current = current.nextNode
   print('')
 
+def printListaX2(L):
+  current = L.head
+  while current != None:
+    print(current.key, end=" ")
+    print(current.value)
+    current = current.nextNode
+  print('')
+
 def add(L,element):
   current = L.head
   nuevoNodo = Node()

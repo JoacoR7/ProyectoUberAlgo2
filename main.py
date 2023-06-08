@@ -10,6 +10,10 @@ import servicios.CargarDireccionServicio as cd
 #servicios.serializacion.serializarPersonas(["A", "B", "C"])
 cantidadV, aristas = servicios.serializacion.extraerMatriz()
 map = ms.createMap(cantidadV, aristas)
+g.shortestPath(map, 7, 4)
+print("")
+
+
 print(ms.existPath(map, 7, 4))
 
 
@@ -18,8 +22,7 @@ cd.cargarUbicacion(cantidadV,map)
 
 #uber.menu()
 
-g.shortestPath(map, 7, 4)
-print("")
+
 
 ms.cálculosIniciales(map)
 
