@@ -5,6 +5,7 @@ import entidades.algo1 as a
 import entidades.dictionary as d
 import entidades.graph as g
 import copy
+import re
 
 def createMap(length, A):
     #length: cantidad de vértices
@@ -99,30 +100,32 @@ def cálculosIniciales(map):
     return datos
 
 def obtenerAristas(secuencia):
+
     # Encontrar el índice de apertura y cierre de llaves
     indice_inicio = secuencia.find("{")
     indice_fin = secuencia.find("}")
-
+    
     # Extraer la secuencia dentro de las llaves
     secuencia_dentro_llaves = secuencia[indice_inicio + 1:indice_fin]
-
-    # Dividir la secuencia en elementos individuales
-    elementos = secuencia_dentro_llaves.split(", ")
-
+    
+    # Utilizar una expresión regular para dividir la secuencia en elementos individuales
+    elementos = re.findall(r"<([^<>]+)>", secuencia_dentro_llaves)
+    
     # Crear una matriz de 3 columnas
     matriz = []
-
+    
     for elemento in elementos:
-        valores = elemento.strip("<>").split(",")
+        valores = elemento.split(",")
         nuevos_valores = []
         for valor in valores:
+            valor = valor.strip()
             if valor.startswith("e"):
                 numero = valor[1:]
                 nuevos_valores.append(numero)
             else:
                 nuevos_valores.append(valor)
         matriz.append(nuevos_valores)
-    
+
     return matriz
 
 def obtenerEsquinas(secuencia):
