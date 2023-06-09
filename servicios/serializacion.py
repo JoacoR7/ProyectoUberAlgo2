@@ -150,5 +150,14 @@ def extraerAristas(fila, secuencia, listaAristas):
             entidades.linkedlist.add(listaAristas, arista)
         columna += 1
 
+def extraerEsquinasYCalles():
+    _, fichero = buscarArchivo("datos2")
+    if fichero != None:
+        lista =  fichero.readlines()
+        fichero.close()
+        return lista
+    
+    return None
+
 
 
