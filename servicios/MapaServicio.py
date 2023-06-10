@@ -351,5 +351,3 @@ def cargarEsquina():
                     esquinas.insert(esquina[1],esquina)
                 correcto = True
     return esquinas
-
-
