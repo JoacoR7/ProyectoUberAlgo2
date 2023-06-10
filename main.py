@@ -8,11 +8,14 @@ import entidades.graph as g
 
 import servicios.CargarDireccionServicio as cd
 #servicios.serializacion.serializarPersonas(["A", "B", "C"])
-cantidadV, aristas = s.extraerMatriz()
-map = ms.createMap(cantidadV, aristas)
+
+
 
 
 datos = s.extraerEsquinasYCalles()
 aristas = ms.obtenerAristas(datos[1])
 esquinas = ms.obtenerEsquinas(datos[0])
-ms.crearMapa(esquinas, aristas)
+map, mapAux = ms.crearMapa(esquinas, aristas)
+s.serializarMapa(map)
+mapa = s.buscarMapa()
+print("")

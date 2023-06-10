@@ -61,14 +61,12 @@ def serializarMapa(M):
 
 def buscarMapa():
     try:
-        fichero = open("mapa")
-        found = True
+        fichero = open("mapa", "rb")
     except FileNotFoundError:
-        found = False
-    finally:
-        if found == True:
-            fichero.close()
-        return found
+        return None
+    contenido = pickle.load(fichero)
+    fichero.close()
+    return contenido
 
 def borrarMapa():
     if buscarMapa():
