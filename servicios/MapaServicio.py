@@ -4,13 +4,15 @@ import entidades.mystack as s
 import entidades.algo1 as a
 import entidades.dictionary as d
 import entidades.graph as g
+import copy
+import re
 
 def createMap(length, A):
     #length: cantidad de vértices
     dic = [None]*length
     hash = d.dictionary()
     hash.head = dic
-    fillSlots(hash, A, length)
+    #fillSlots(hash, A, length)
     return hash
 
 def fillSlots(map, A, length):
@@ -97,8 +99,143 @@ def cálculosIniciales(map):
     print("")
     return datos
 
+def obtenerAristas(secuencia):
+
+    # Encontrar el índice de apertura y cierre de llaves
+    indice_inicio = secuencia.find("{")
+    indice_fin = secuencia.find("}")
+    
+    # Extraer la secuencia dentro de las llaves
+    secuencia_dentro_llaves = secuencia[indice_inicio + 1:indice_fin]
+    
+    # Utilizar una expresión regular para dividir la secuencia en elementos individuales
+    elementos = re.findall(r"<([^<>]+)>", secuencia_dentro_llaves)
+    
+    # Crear una matriz de 3 columnas
+    matriz = []
+    
+    for elemento in elementos:
+        valores = elemento.split(",")
+        nuevos_valores = []
+        for valor in valores:
+            valor = valor.strip()
+            if valor.startswith("e"):
+                numero = valor[1:]
+                nuevos_valores.append(numero)
+            else:
+                nuevos_valores.append(valor)
+        matriz.append(nuevos_valores)
+
+    return matriz
+
+def obtenerEsquinas(secuencia):
+    # Encontrar el índice de apertura y cierre de llaves
+    indice_inicio = secuencia.find("{")
+    indice_fin = secuencia.find("}")
+
+    # Extraer la secuencia dentro de las llaves
+    secuencia_dentro_llaves = secuencia[indice_inicio + 1:indice_fin]
+
+    # Dividir la secuencia en elementos individuales
+    elementos = secuencia_dentro_llaves.split(",")
+
+    # Crear un array para almacenar los elementos
+    array= []
+
+    for elemento in elementos:
+        array.append(elemento.strip())
+
+    array = filtrarEsquinas(array)
+    
+    return array
+
+def filtrarEsquinas(array):
+    # Crear una nueva lista para almacenar los elementos modificados
+    esquinasFiltradas = []
+
+    for elemento in array:
+        if 'e' in elemento:
+            numero = elemento[1:]
+            esquinasFiltradas.append(numero)
+        else:
+            esquinasFiltradas.append(elemento)
+
+    return esquinasFiltradas
+
+def crearMapa(V, A):
+    #length: cantidad de vértices
+    length = len(V)
+    dic = [None]*length
+    hash = d.dictionary()
+    hash.head = dic
+    insertarEsquinas(hash, V, length)
+    mapAux = copy.deepcopy(hash)
+    insertarCalles(hash, A, length)
+    return hash, mapAux
+
+def insertarEsquinas(map, V, length):
+    for i in range(len(V)):
+        esquina = V[i]
+        esquina = int(esquina)
+        slot = (esquina % length) - 1
+        inserted = False
+        node = d.dictionaryNode()
+        node.key = esquina
+        aristaAux = [None]*2
+        node.value = aristaAux
+        #Insertaremos las esquinas, realizamos linear probing para evitar colisiones
+        while not inserted:
+            if map.head[slot] == None:
+                lista = l.LinkedList()
+                lista.head = node
+                map.head[slot] = lista 
+                inserted = True
+            else:
+                slot += 1
+                if slot == length:
+                    slot = 0
+
+def insertarCalles(map, A, length):
+    for elemento in A:
+        esquinaInicial = int(elemento[0])
+        esquinaFinal = int(elemento [1])
+        distancia = int(elemento[2])
+        slot = encontrarSlot(map, esquinaInicial)
+        inserted = False
+        node = map.head[slot].head
+        while not inserted:
+            arista = node.value
+            if arista[0] == None and arista[1] == None:
+                arista[0] = esquinaFinal
+                arista[1] = distancia
+                inserted = True
+            else:
+                while True:
+                    nodeAux = copy.deepcopy(node)
+                    if node.nextNode == None:
+                        node.nextNode = nodeAux
+                        break
+                    else:
+                        node = node.nextNode
+                node.nextNode.value[0] = esquinaFinal
+                node.nextNode.value[1] = distancia
+                inserted = True
+
+def encontrarSlot(map, key):
+    found  = False
+    length = len(map.head)
+    slot = (key % length) - 1
+    while not found:
+        if map.head[slot].head.key != key:
+            slot += 1
+            if slot == length:
+                slot = 0
+        else:
+            found = True
+    return slot
 
 
+                
 
 
 
