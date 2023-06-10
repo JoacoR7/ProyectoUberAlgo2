@@ -5,8 +5,7 @@ import servicios.MapaServicio as ms
 import servicios.UbicacionFijaServicio as uf
 import servicios.UbicacionMovilServicio as um
 import entidades.graph as g
-
-import servicios.CargarDireccionServicio as cd
+import servicios.UbicacionFijaServicio as uf
 #servicios.serializacion.serializarPersonas(["A", "B", "C"])
 
 
@@ -19,4 +18,3 @@ map, mapAux = ms.crearMapa(esquinas, aristas)
 s.serializarMapa(map)
 mapa = s.buscarMapa()
 print("")
-

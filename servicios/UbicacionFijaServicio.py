@@ -1,7 +1,4 @@
-import entidades.UbicacionFija as uf
-import servicios.CargarDireccionServicio as ds
 import entidades.dictionary as dic
-import servicios.UbicacionMovilServicio as um
 import re
 import servicios.serializacion as s 
 import servicios.MapaServicio as ms
@@ -26,7 +23,6 @@ def load_fix_element(nombre,direccion):
         #AGREGO AL DIC
         pos = calcularPos(nombre)
         dic.insertInPos(dicuF, pos, nombre, direccion)
-        dic.printDic(dicuF)#
     else:
         print("La dirección: ", dir, " no existe.")
 
@@ -65,8 +61,6 @@ def calcularPos(nombre):
     return pos
 
 def existeDir(mapa,dir):
-    #patron = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
-    #rdo = re.findall(patron, dir)
 
     patron = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
     rdo = re.findall(patron, dir)
