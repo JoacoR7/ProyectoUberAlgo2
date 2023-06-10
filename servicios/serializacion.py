@@ -61,14 +61,12 @@ def serializarMapa(M):
 
 def buscarMapa():
     try:
-        fichero = open("mapa")
-        found = True
+        fichero = open("mapa", "rb")
     except FileNotFoundError:
-        found = False
-    finally:
-        if found == True:
-            fichero.close()
-        return found
+        return None
+    contenido = pickle.load(fichero)
+    fichero.close()
+    return contenido
 
 def borrarMapa():
     if buscarMapa():
@@ -150,5 +148,11 @@ def extraerAristas(fila, secuencia, listaAristas):
             entidades.linkedlist.add(listaAristas, arista)
         columna += 1
 
-
-
+def extraerEsquinasYCalles():
+    _, fichero = buscarArchivo("datos2")
+    if fichero != None:
+        lista =  fichero.readlines()
+        fichero.close()
+        return lista
+    
+    return None

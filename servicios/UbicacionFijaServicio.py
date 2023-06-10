@@ -3,15 +3,16 @@ import servicios.CargarDireccionServicio as ds
 import entidades.dictionary as dic
 import servicios.UbicacionMovilServicio as um
 import re
+import servicios.serializacion as s 
+import main
+import servicios.MapaServicio as ms
 dicuF = None  # Variable global para almacenar la estructura dicP
 
 def load_fix_element(nombre,direccion):
-
-    global cantidadV
-    
+    esquinas = main.esquinas
     global dicuF
-
-    direccion = existeDir(cantidadV,map,direccion)
+    mapa = s.buscarMapa()
+    direccion = existeDir(esquinas,mapa,direccion)
     if direccion != False:
 
         if dicuF is None:
@@ -78,11 +79,8 @@ def existeDir(v,mapa,dir):
     esq = [ex,ey]
     key = esq[0]
     key = int(key[1:])
-
-
-    slot = (key % v)-1
-    if slot == -1:
-        slot = 6
+    slot = ms.encontrarSlot(map, key)
+    
     if mapa.head[slot] == None:
         c = False
     else:
