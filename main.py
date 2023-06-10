@@ -12,11 +12,11 @@ cantidadV, aristas = servicios.serializacion.extraerMatriz()
 map, mapAux = ms.createMap(cantidadV, aristas)
 ms.printMap(map)
 ms.printMap(mapAux)
-g.shortestPath(map, mapAux 7, 4)
+#g.shortestPath(map, mapAux, 7, 4) 
 print("")
 
 
-print(ms.existPath(map, 7, 4))
+#print(ms.existPath(map, 7, 4))
 
 
 

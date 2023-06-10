@@ -18,9 +18,9 @@ def cargarUbicacion(v,mapa):
             opcion = opcion
 
         if opcion == 1:
-            print("Nombre:")
+            print('Nombre:')
             nombre = input()
-            print("Dirección ({<ex, dx>, <ey, dy>}):")
+            print('Dirección ("<ex,dx> <ey,dy>"):')
             direccion = input()
             direccion = existeDir(v,mapa,direccion) 
             if direccion != False:
@@ -30,7 +30,7 @@ def cargarUbicacion(v,mapa):
         elif opcion == 2:
             print("Nombre:")
             nombre = input()
-            print("Dirección ({<ex, dx>, <ey, dy>}):")
+            print('Dirección ("<ex,dx> <ey,dy>"):')
             direccion = input()
             direccion = existeDir(v,mapa,direccion) 
             if direccion != False:
@@ -46,6 +46,9 @@ def cargarUbicacion(v,mapa):
 
 
 def existeDir(v,mapa,dir): #v=cant vertices     dir = {<ex, 10>, <ey, 5>} 
+    #patron = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
+    #rdo = re.findall(patron, dir)
+
     patron = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
     rdo = re.findall(patron, dir)
 

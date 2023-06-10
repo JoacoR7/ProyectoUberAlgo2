@@ -5,7 +5,7 @@ import entidades.dictionary as dic
 dicC = None
 dicP = None  # Variable global para almacenar la estructura dicP
 
-def load_movil_element(nombre, direccion):
+def load_movil_element(nombre, direccion, monto):
 
     global dicP  # Declaro que estoy utilizando la variable global dicP
     global dicC
@@ -16,7 +16,11 @@ def load_movil_element(nombre, direccion):
     if dicC is None:
         dicC = [None] * 13  # Creo la estructura dicC solo la primera vez
 
-    while searchUbiMovil(dicC,nombre,13) != None:
+    if nombre[0] == "C": 
+        dic = dicC
+    else: 
+        dic = dicP
+    while searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
         print(nombre, "ya existe en el mapa, intente nuevamente con otro nombre: ")
         nombre = input()
     
@@ -39,7 +43,7 @@ def load_movil_element(nombre, direccion):
 
 def addDicC(dicC,m,nombre,monto,dir):
         k = int(nombre[1:])
-        k = k % m
+        k = (k % m)-1
         value = [dir, monto]                               
         dic.insertUbiMovil(m,dicC,k,nombre,value)
         dic.printDic(dicC)
@@ -47,6 +51,7 @@ def addDicC(dicC,m,nombre,monto,dir):
 
 def addDicP(dicP,m,nombre,monto,dir):
         k = int(nombre[1:])
+        k = (k % m)-1
         value = [dir, monto]                               
         dic.insertUbiMovil(m,dicP,k,nombre,value)
         dic.printDic(dicP)
