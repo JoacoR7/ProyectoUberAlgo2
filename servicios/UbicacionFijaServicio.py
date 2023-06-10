@@ -4,20 +4,20 @@ import entidades.dictionary as dic
 import servicios.UbicacionMovilServicio as um
 import re
 import servicios.serializacion as s 
-import main
 import servicios.MapaServicio as ms
+
 dicuF = None  # Variable global para almacenar la estructura dicP
 
 def load_fix_element(nombre,direccion):
-    esquinas = main.esquinas
     global dicuF
     mapa = s.buscarMapa()
-    direccion = existeDir(esquinas,mapa,direccion)
+    #ms.printMap(mapa)
+    dir = direccion
+    direccion = existeDir(mapa,direccion)
     if direccion != False:
 
         if dicuF is None:
             dicuF = [None]*7 
-        dic.printDic(dicuF)#
 
         while searchUbiFija(dicuF,nombre) != False:
             print(nombre, "ya existe en el mapa, intente nuevamente: ")
@@ -28,7 +28,7 @@ def load_fix_element(nombre,direccion):
         dic.insertInPos(dicuF, pos, nombre, direccion)
         dic.printDic(dicuF)#
     else:
-        print("La dirección ingresada no existe.")
+        print("La dirección: ", dir, " no existe.")
 
 
 def searchUbiFija(dic,nombre): #dado el nombre de la ubicacion, busca la dirección (si es que existe)
@@ -64,7 +64,7 @@ def calcularPos(nombre):
         pos = 6
     return pos
 
-def existeDir(v,mapa,dir):
+def existeDir(mapa,dir):
     #patron = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
     #rdo = re.findall(patron, dir)
 
@@ -79,7 +79,7 @@ def existeDir(v,mapa,dir):
     esq = [ex,ey]
     key = esq[0]
     key = int(key[1:])
-    slot = ms.encontrarSlot(map, key)
+    slot = ms.encontrarSlot(mapa, key)
     
     if mapa.head[slot] == None:
         c = False

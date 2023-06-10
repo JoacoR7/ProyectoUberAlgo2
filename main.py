@@ -19,3 +19,4 @@ map, mapAux = ms.crearMapa(esquinas, aristas)
 s.serializarMapa(map)
 mapa = s.buscarMapa()
 print("")
+
