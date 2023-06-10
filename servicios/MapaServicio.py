@@ -200,15 +200,7 @@ def insertarCalles(map, A, length):
         esquinaInicial = int(elemento[0])
         esquinaFinal = int(elemento [1])
         distancia = int(elemento[2])
-        slot = (esquinaInicial % length) - 1
-        found  = False
-        while not found:
-            if map.head[slot].head.key != esquinaInicial:
-                slot += 1
-                if slot == length:
-                    slot = 0
-            else:
-                found = True
+        slot = encontrarSlot(map, esquinaInicial)
         inserted = False
         node = map.head[slot].head
         while not inserted:
@@ -229,8 +221,18 @@ def insertarCalles(map, A, length):
                 node.nextNode.value[1] = distancia
                 inserted = True
 
-
-                
+def encontrarSlot(map, key):
+    found  = False
+    length = len(map.head)
+    slot = (key % length) - 1
+    while not found:
+        if map.head[slot].head.key != key:
+            slot += 1
+            if slot == length:
+                slot = 0
+        else:
+            found = True
+    return slot
 
 
                 
