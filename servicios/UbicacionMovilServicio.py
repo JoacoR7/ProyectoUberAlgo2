@@ -26,26 +26,24 @@ def load_movil_element(nombre, direccion, monto):
             dic = dicC
         else: 
             dic = dicP
-        while searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
-            print(nombre, "ya existe en el mapa, intente nuevamente con otro nombre: ")
-            nombre = input()
-        
+        if searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
+            print(nombre, "ya existe en el mapa, intente nuevamente. ")
+        else:
+            while True:
+                try:
+                    if monto <= 0:
+                        print("El monto debe ser un número mayor a cero, intente nuevamente.")
+                        monto = float(input())
+                    else:
+                        break
+                except ValueError:
+                    print("Error: El valor ingresado no es válido.")
 
-        while True:
-            try:
-                if monto <= 0:
-                    print("El monto debe ser un número mayor a cero, intente nuevamente.")
-                    monto = float(input())
-                else:
-                    break
-            except ValueError:
-                print("Error: El valor ingresado no es válido.")
-
-        #agrego al dic
-        if nombre[0] == "C": 
-            addDicC(dicC,13,nombre,monto,direccion)
-        else: 
-            addDicP(dicP,13,nombre,monto,direccion)
+            #agrego al dic
+            if nombre[0] == "C": 
+                addDicC(dicC,13,nombre,monto,direccion)
+            else: 
+                addDicP(dicP,13,nombre,monto,direccion)
     else:
         print("La dirección: ", dir, " no existe.")
 
@@ -61,8 +59,6 @@ def addDicP(dicP,m,nombre,monto,dir):
         k = (k % m)-1
         value = [dir, monto]                               
         dic.insertUbiMovil(m,dicP,k,nombre,value)
-        #dic.printDic(dicP)
-
 
 #Para verificar si esa ubicacion ya existe (ej: si quieren agregar un C1 pero este ya está agregado)
 def searchUbiMovil(dic,nombre,m):

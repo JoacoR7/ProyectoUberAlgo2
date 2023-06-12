@@ -16,13 +16,12 @@ def load_fix_element(nombre,direccion):
         if dicuF is None:
             dicuF = [None]*7 
 
-        while searchUbiFija(dicuF,nombre) != False:
-            print(nombre, "ya existe en el mapa, intente nuevamente: ")
-            nombre = input()
-        
-        #AGREGO AL DIC
-        pos = calcularPos(nombre)
-        dic.insertInPos(dicuF, pos, nombre, direccion)
+        if searchUbiFija(dicuF,nombre) != False:
+            print(nombre, "ya existe en el mapa, intente nuevamente. ")
+        else:
+            #AGREGO AL DIC
+            pos = calcularPos(nombre)
+            dic.insertInPos(dicuF, pos, nombre, direccion)
     else:
         print("La dirección: ", dir, " no existe.")
 
@@ -86,9 +85,30 @@ def existeDir(mapa,dir):
             current = current.nextNode
         if current == None:
             c = False
+    
+    key1 = esq[1]
+    key1 = int(key1[1:])
+    slot1 = ms.encontrarSlot(mapa, key1)
+    
+    if mapa.head[slot1] == None:
+        c = False
+    else:
+        current = mapa.head[slot1].head 
+        while current != None:
+            if current.value[0] == int((esq[0])[1:]):
+                c1 = float(current.value[1])
+                break
+            current = current.nextNode
+        if current == None:
+            c1 = False
 
-    if c != False:  
+    if c != False:
         if c == dx+dy: #verifico que el largo de las esquinas sean correctas
+            crear = True
+        else:
+            crear = False
+    elif c1 != False:
+        if c1 == dx+dy: #verifico que el largo de las esquinas sean correctas
             crear = True
         else:
             crear = False
