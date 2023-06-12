@@ -765,7 +765,7 @@ def graph_Matriz_D(LV, LA):
 def initRelax(grafo,s): #distancia y padre
     vertice = copy.deepcopy(grafo)
     for i in range(0,len(grafo.head)):
-        if i != s-1:
+        if vertice.head[i].head.key != s:
             if vertice.head[i]!=None:
                 vertice.head[i].head.value[0] = float('inf')
                 vertice.head[i].head.value[1] = None
@@ -885,7 +885,7 @@ def shortestPath(grafo,mapAux, s, v):
             if visitDist.head[slot2].head.value[1] == None: #visitado(1)
                 relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
             node = node.nextNode
-        visitDist.head[slot].head.value[1] = u+1  #visitado
+        visitDist.head[slot].head.value[1] = u #visitado
         verticeAux.head[slot].head.value[0] = None #value[0]=distancia
         Q = minQueue(verticeAux)
     slotD = ms.encontrarSlot(visitDist,v)
