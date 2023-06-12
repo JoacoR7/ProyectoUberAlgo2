@@ -31,13 +31,15 @@ def load_movil_element(nombre, direccion, monto):
         else:
             while True:
                 try:
+                    monto = float(monto)
                     if monto <= 0:
                         print("El monto debe ser un número mayor a cero, intente nuevamente.")
-                        monto = float(input())
+                        return
                     else:
                         break
                 except ValueError:
                     print("Error: El valor ingresado no es válido.")
+                    return
 
             #agrego al dic
             if nombre[0] == "C": 
