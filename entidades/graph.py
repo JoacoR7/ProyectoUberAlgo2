@@ -349,6 +349,7 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
             #ARCO RETROCESO
             elif vertices[key].head.value == "grey":
                 arcosRetroceso_T_o_F = True
+                #TODO: revisar acá
                 insertInOrder(arcosRetroceso, key+1, u+1)
                 insertInOrder(arcosRetroceso, u, key)
             #ARCO AVANCE O CRUCE
@@ -872,15 +873,18 @@ def shortestPath(grafo,mapAux, s, v):
         u = dequeue(Q)
         slot = ms.encontrarSlot(grafo,u)
         node = grafo.head[slot]    ###
-        for i in range(0,len(grafo.head)):
-            if node != None:
-                node = node.head
-            while node != None:
-                slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
-                #slot = (node.value[0]-1 % longitud)-1 
-                if visitDist.head[slot2].head.value[1] == None: #visitado(1)
-                    relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
-                node = node.nextNode
+        if node.head.value[0] == None:
+            node = None
+        #for i in range(0,len(grafo.head)):
+        if node != None:
+            node = node.head
+        
+        while node != None:
+            slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
+            #slot = (node.value[0]-1 % longitud)-1 
+            if visitDist.head[slot2].head.value[1] == None: #visitado(1)
+                relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
+            node = node.nextNode
         visitDist.head[slot].head.value[1] = u+1  #visitado
         verticeAux.head[slot].head.value[0] = None #value[0]=distancia
         Q = minQueue(verticeAux)

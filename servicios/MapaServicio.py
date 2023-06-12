@@ -67,7 +67,7 @@ def existPath(map, e1, e2):
     path = g.searchGrafo(dfs, 0, e2)
     return path
 
-def cálculosIniciales(map):
+def calculosIniciales(map, mapAux):
     slots = map.head
     long = len(slots)
     datos = [[None]*long, [None]*long]
@@ -83,18 +83,20 @@ def cálculosIniciales(map):
         inicio = slots[i]
         if inicio != None:
             inicio = inicio.head.key
+            ma = copy.deepcopy(mapAux)
             for j in range(0, long):
                 if i != j:
                     fin = slots[j]
-                    found = False
-                    if fin != None:
+                    found = True
+                    fin = fin.head.key
+                    """if fin != None:
                         fin = fin.head.key
-                        found = existPath(map, inicio, fin)
+                        found = existPath(map, inicio, fin)"""
                     if found:
                         dato = [0]*2
                         dato[0] = fin
-                        _, distancia = g.shortestPath(map, inicio, fin)
-                        dato[1] = distancia[j]
+                        _, distancia = g.shortestPath(map, ma, inicio, fin)
+                        dato[1] = distancia
                         l.add(datos[1][i],dato)
     print("")
     return datos

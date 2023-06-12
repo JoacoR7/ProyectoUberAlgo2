@@ -19,5 +19,9 @@ s.serializarMapa(map)
 mapa = s.buscarMapa()
 print("")
 
+datos = ms.calculosIniciales(mapa, mapAux)
+print("")
 
-camino, distF = g.shortestPath(mapa,mapAux, 4, 5)
+
+camino, distF = g.shortestPath(mapa,mapAux, 10, 9)
+print(distF)
