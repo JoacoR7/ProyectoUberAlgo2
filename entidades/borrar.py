@@ -3,8 +3,13 @@ from entidades.myqueue import *
 from entidades.linkedlist import *
 from entidades.mystack import *
 import math
-import servicios.MapaServicio as ms
-import copy
+
+"""LV=[0,1,2,3,4,5,6,7,8,9]
+LA=[(2,0,50),(0,1,100),(3,1,50),(4,1,50),(1,2,50),(0,3,50),(6,4,50),(1,5,50),(1,6,100),(5,6,50),(7,6,50),(9,7,50),(6,8,50),(6,9,100),(8,9,50)]
+m = graph_Matriz_D(LV, LA)
+printMatriz(m)
+n = shortestPath2(m, 0, 9)"""
+
 """Ejercicio 1
 Implementar la función crear grafo que dada una lista de vértices y una lista de aristas cree un grafo con la representación por 
 Lista de Adyacencia.
@@ -14,6 +19,7 @@ Descripción: Implementa la operación crear grafo
 Entrada: LinkedList con la lista de vértices y LinkedList con la lista de aristas donde por cada par de elementos representa una 
 conexión entre dos vértices.
 Salida: retorna el nuevo grafo"""
+
 #EJERCICIO 1
 
 def createGraphx2(LV, LA): # representa la arista(v,w) en la lista de ady de v y w
@@ -288,7 +294,7 @@ Salida: Devuelve una Lista de Adyacencia con la representación DFS del grafo re
 """
 
 def convertToDFSTree(grafo, u):
-    long = len(grafo.head)
+    long = len(grafo)
     #nuevo diccionario para guardar los vertices con su color, distancia y padre
     vertices = [None]*(long)
     arcosRetroceso = [None]*(long)
@@ -315,14 +321,14 @@ def convertToDFSTree(grafo, u):
         value = "white"
         insertInOrder(vertices, i, value) #inserto color     HEAD
 
-    DFS = [None]*(len(grafo.head)+1)
+    DFS = [None]*(len(grafo)+1)
     for i in range (0,long):
         if vertices[i].head.value == "white":
 
             if i != 0: #si es igual a 0 es el caso de el primer vertice = RAIZ
                 u = vertices[i].head.key
             j += 1
-            DFS = convertToDFSTreeR(grafo,u-1,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
+            DFS = convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
     return DFS
 
 
@@ -331,25 +337,24 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
     time += 1
     vertices[u].head.value = "grey" 
     vertices[u].head.nextNode.value = time
-    #TODO: REVISAR ESTO
-    long = length(grafo.head[u])
 
+    long = length(grafo[u])
 
-    if grafo.head[u] != None:
-        currentGrafo = grafo.head[u].head
+    if grafo[u].head.value != -1:
+        currentGrafo = grafo[u].head
         currentVertices = vertices[u].head
 
         for i in range(0,long):
-            key = currentGrafo.value[0] - 1
+            key = currentGrafo.value
     
             if vertices[key].head.value == "white":
-                vertices[key].head.nextNode.nextNode.value = u 
-                insertInOrderBFS(DFS, j, u+1, key+1)
+                vertices[key].head.nextNode.nextNode.value = u
+                insertInOrderBFS(DFS, j, u, key)
                 convertToDFSTreeR(grafo,key,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_T_o_F,arcoAvance,arcoCruce)
             #ARCO RETROCESO
             elif vertices[key].head.value == "grey":
                 arcosRetroceso_T_o_F = True
-                insertInOrder(arcosRetroceso, key+1, u+1)
+                insertInOrder(arcosRetroceso, key, u)
                 insertInOrder(arcosRetroceso, u, key)
             #ARCO AVANCE O CRUCE
             elif vertices[key].head.value == "black":
@@ -358,10 +363,10 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
                 
                 #Son aristas (u,v) que no son parte del árbol y conectan u a un descendiente v (vértice sucesor).
                 if vertices[u].head.nextNode.value < vertices[key].head.nextNode.value:
-                    insertInOrder(arcoAvance, u+1, key+1)
+                    insertInOrder(arcoAvance, u, key)
                 else:
                 #Pueden ir entre vértices dentro de un mismo árbol (siempre que v no sea ancestro de u), o entre distintos árboles DFS.            
-                    insertInOrder(arcoCruce, u+1, key+1)
+                    insertInOrder(arcoCruce, u, key)
 
             currentGrafo = currentGrafo.nextNode
             
@@ -373,7 +378,7 @@ def convertToDFSTreeR(grafo,u,vertices,j,time,DFS,arcosRetroceso,arcosRetroceso_
     else:
         #caso en que un vertice no esta conectado con ningun otro vertice
         key = u
-        insertInOrderBFS(DFS, j, u+1, None)
+        insertInOrderBFS(DFS, j, u, None)
     return DFS
 
 
@@ -540,12 +545,13 @@ def graph_Matriz(LV, LA):
 
 
 def printMatriz(matrix):
-    filas = len(matrix)
-    columnas = filas
-    for i in range(0, filas):
-        print("|", end="  ")
+  filas = len(matrix)
+  columnas = filas
+
+  for i in range(0, filas):
+    print("|", end="  ")
     for j in range(0, columnas):
-        print(matrix[i][j], end="  ")
+      print(matrix[i][j], end="  ")
     print("|")
 
 #EJERCICIO 14 -------- PRIM
@@ -752,8 +758,7 @@ def graph_Matriz_D(LV, LA):
         i = LA[f][0]
         j = LA[f][1]
         value = LA[f][2]
-        print(i,j,value)
-        matriz[i][j] = value  
+        matriz[i-1][j-1] = value  
 
     for i in range(0,len(LV)):
         for j in range(0,len(LV)):  
@@ -761,43 +766,30 @@ def graph_Matriz_D(LV, LA):
                 matriz[i][j] = 0         
     return matriz 
 
-def initRelax(grafo,s): #distancia y padre
-    vertice = copy.deepcopy(grafo)
-    for i in range(0,len(grafo.head)):
-        if i != s-1:
-            if vertice.head[i]!=None:
-                vertice.head[i].head.value[0] = float('inf')
-                vertice.head[i].head.value[1] = None
-        else:
-            if vertice.head[i]!=None:
-                vertice.head[i].head.value[0] = 0
-                vertice.head[i].head.value[1] = None
-    return vertice
-
-"""def initRelax(grafo,s): #distancia
-    vertice = [None]*len(grafo.head)
-    for i in range(0,len(grafo.head)):
-        if i != s-1:
+def initRelax(grafo,s): #distancia
+    vertice = [None]*len(grafo)
+    for i in range(0,len(grafo)):
+        if i != s:
             vertice[i]=float('inf')
         else:
             vertice[i]=0
     return vertice
 
 def initRelax2(grafo,s): #padre
-    vertice = [None]*len(grafo.head)
-    for i in range(0,len(grafo.head)):
-        if i != s-1:
+    vertice = [None]*len(grafo)
+    for i in range(0,len(grafo)):
+        if i != s:
             vertice[i]=None
-    return vertice"""
+    return vertice
 
 def minQueue(v):
     Q = LinkedList()
-    for i in range (0,len(v.head)):
-        if v.head[i] != None and v.head[i].head.value[0] != None:
+    for i in range (0,len(v)):
+        if v[i] != None:
             current = Q.head
             Node = PriorityNode()
-            Node.value = v.head[i].head.key        #vertice
-            Node.priority = v.head[i].head.value[0]  #distancia
+            Node.value = i        #vertice
+            Node.priority = v[i]  #distancia
 
             priority = Node.priority
             if current == None:
@@ -823,73 +815,35 @@ def minQueue(v):
 
     return Q
 
-def relax(vertice,u,v,distancias,slot,slot2):
-    if vertice.head[slot].head.value[0] + v[1] < vertice.head[slot2].head.value[0]:
-        vertice.head[slot2].head.value[0] = vertice.head[slot].head.value[0]+ v[1]
-        vertice.head[slot2].head.value[1] = u 
-        distancias.head[slot2].head.value[0] = vertice.head[slot].head.value[0] + v[1]
-    return
 
-"""
 def relax(grafo,vertice,u,v,verticeP):
     if vertice[u] + grafo[u][v] < vertice[v]:
         vertice[v]= vertice[u]+ grafo[u][v]
         verticeP[v] = u
     return
-"""
 
-def camino(vertice,s,v):
-    #v -= 1
-    slot = ms.encontrarSlot(vertice,v)
-    if vertice.head[slot] == None:
+def camino(verticeP,s,v):
+    if verticeP[v] == None:
         return None
     else:
         llegada = v
-        #llegada = v + 1
         camino = LinkedList()
-        add(camino,llegada)
+        add(camino,v)
         while llegada != s:
-            slot = ms.encontrarSlot(vertice,v)
-            llegada = vertice.head[slot].head.value[1]
+            llegada = verticeP[v]
             add(camino,llegada)
-            if llegada != None:
-                v = llegada 
-            else:
-                camino = None
-                break
+            v = llegada
+        printLista(camino)
         return camino
 
-def shortestPath(grafo,mapAux, s, v):
-    vertice = initRelax(mapAux,s) #distancia, padre
-    #verticeP = initRelax2(grafo,s) #padre
+def shortestPath2(grafo, s, v):
+    vertice = initRelax(grafo,s) #distancia
+    verticeP = initRelax2(grafo,s) #padre
     verticeAux = vertice
-    #####visitado seria el value[1] y distancias el value[0] ---> visitDist
-    #distancias = [0]*len(vertice)
-    #visitado = [None]*len(grafo.head)
-    visitDist = mapAux
+    visitado = [None]*len(grafo)
     Q = minQueue(vertice)
-    while length(Q) > 0:
-        u = dequeue(Q)
-        slot = ms.encontrarSlot(grafo,u)
-        node = grafo.head[slot]    ###
-        for i in range(0,len(grafo.head)):
-            if node != None:
-                node = node.head
-            while node != None:
-                slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
-                #slot = (node.value[0]-1 % longitud)-1 
-                if visitDist.head[slot2].head.value[1] == None: #visitado(1)
-                    relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
-                node = node.nextNode
-        visitDist.head[slot].head.value[1] = u+1  #visitado
-        verticeAux.head[slot].head.value[0] = None #value[0]=distancia
-        Q = minQueue(verticeAux)
-    slotD = ms.encontrarSlot(visitDist,v)
-    distanciaFinal = visitDist.head[slotD].head.value[0]
-    return camino(vertice,s,v), distanciaFinal #distancia
 
 
-"""
     while length(Q) > 0:
         u = dequeue(Q)
         for i in range(0,len(grafo)):
@@ -899,4 +853,5 @@ def shortestPath(grafo,mapAux, s, v):
         visitado[u] = u
         verticeAux[u] = None
         Q = minQueue(verticeAux)
-"""
+
+    return camino(verticeP,s,v)
