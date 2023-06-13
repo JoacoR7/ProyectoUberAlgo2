@@ -99,7 +99,6 @@ def calculosIniciales(map, mapAux):
                         _, distancia = g.shortestPath(map, ma, inicio, fin)
                         dato[1] = distancia
                         l.add(datos[1][i],dato)
-    print("")
     return datos
 
 def obtenerAristas(secuencia):
@@ -166,6 +165,13 @@ def filtrarEsquinas(array):
     return esquinasFiltradas
 
 def crearMapa(datos):
+    mapa = se.buscarArchivo("mapa")
+    if mapa != None:
+        print("Ya hay un mapa existente, ¿desea sobreescribir el archivo?")
+        print("1: Sí\n2: No")
+        opcion = input()
+        if int(opcion) == 2:
+            return
     datos = se.extraerEsquinasYCalles(datos)
     A = obtenerAristas(datos[1])
     V = obtenerEsquinas(datos[0])
@@ -179,7 +185,9 @@ def crearMapa(datos):
     insertarCalles(hash, A, length)
     se.serializarArchivo(hash, "mapa")
     se.serializarArchivo(mapAux, "mapaAux")
-    return hash, mapAux
+    datos = calculosIniciales(hash, mapAux)
+    se.serializarArchivo(datos, "datos")
+    print("Mapa cargado exitosamente")
 
 def insertarEsquinas(map, V, length):
     for i in range(len(V)):

@@ -21,15 +21,18 @@ def load_movil_element(nombre, direccion, monto):
             if dicC == None:
                 dicC = [None] * 13
             dic = dicC
+            archivo = "lista_autos"
         else: 
             dicP = s.buscarArchivo("lista_personas")
             if dicP == None:
                 dicP = [None] * 13
             dic = dicP
+            archivo = "lista_personas"
         if searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
             print(nombre, "ya existe en el mapa, intente nuevamente. ")
         else:
             while True:
+                print("a")
                 try:
                     monto = float(monto)
                     if monto <= 0:
@@ -44,8 +47,11 @@ def load_movil_element(nombre, direccion, monto):
             #agrego al dic
             if nombre[0] == "C": 
                 addDicC(dicC,13,nombre,monto,direccion)
+                s.serializarArchivo(dicC, archivo)
             else: 
                 addDicP(dicP,13,nombre,monto,direccion)
+                s.serializarArchivo(dicP, archivo)
+            
     else:
         print("La dirección: ", dir, " no existe.")
 
