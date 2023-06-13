@@ -96,6 +96,8 @@ def calculosIniciales(map, mapAux):
                         dato = [0]*2
                         dato[0] = fin
                         _, distancia = g.shortestPath(map, ma, inicio, fin)
+                        if distancia == None:
+                            continue
                         dato[1] = distancia
                         l.add(datos[1][i],dato)
     print("")

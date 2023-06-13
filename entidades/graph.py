@@ -5,6 +5,7 @@ from entidades.mystack import *
 import math
 import servicios.MapaServicio as ms
 import copy
+import re
 """Ejercicio 1
 Implementar la función crear grafo que dada una lista de vértices y una lista de aristas cree un grafo con la representación por 
 Lista de Adyacencia.
@@ -859,6 +860,27 @@ def camino(vertice,s,v):
                 camino = None
                 break
         return camino
+    
+def calculoEsquinas(s,v):
+    patron1 = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
+    rdo1 = re.findall(patron1, s)
+    ex1 = rdo1[0][0]
+    dx1 = float(rdo1[0][1])
+    ey1 = rdo1[1][0]
+    dy1 = float(rdo1[1][1])
+
+    patron2 = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
+    rdo2 = re.findall(patron2, v)
+    ex2 = rdo2[0][0]
+    dx2 = float(rdo2[0][1])
+    ey2 = rdo2[1][0]
+    dy2 = float(rdo2[1][1])
+    
+    s = int(ex1[1:])
+    v = int(ex2[1:])
+    restar = dx1+dy2   ##ver tema de si es doble mano la calle
+    return s, v, restar
+
 
 def shortestPath(grafo,mapAux, s, v):
     vertice = initRelax(mapAux,s) #distancia, padre

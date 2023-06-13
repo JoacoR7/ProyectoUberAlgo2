@@ -24,6 +24,7 @@ def load_fix_element(nombre,direccion):
             dic.insertInPos(dicuF, pos, nombre, direccion)
     else:
         print("La dirección: ", dir, " no existe.")
+    return dicuF
 
 
 def searchUbiFija(dic,nombre): #dado el nombre de la ubicacion, busca la dirección (si es que existe)
@@ -107,15 +108,17 @@ def existeDir(mapa,dir):
             crear = True
         else:
             crear = False
+        direccion = [ex,dx,ey,dy]
     elif c1 != False:
         if c1 == dx+dy: #verifico que el largo de las esquinas sean correctas
             crear = True
         else:
             crear = False
+        direccion = [ey,dy,ex,dx]
     else:
         crear = False
     
     if crear == True:      
-        return [ex,dx,ey,dy]
+        return direccion
     else:
         return crear   #FALSE

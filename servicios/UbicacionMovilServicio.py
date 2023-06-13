@@ -26,7 +26,7 @@ def load_movil_element(nombre, direccion, monto):
             dic = dicC
         else: 
             dic = dicP
-        if searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
+        if searchUbiMovil(dic,nombre) != None: #verifico que el nombre no exista
             print(nombre, "ya existe en el mapa, intente nuevamente. ")
         else:
             while True:
@@ -48,6 +48,7 @@ def load_movil_element(nombre, direccion, monto):
                 addDicP(dicP,13,nombre,monto,direccion)
     else:
         print("La dirección: ", dir, " no existe.")
+    return dicC,dicP
 
 def addDicC(dicC,m,nombre,monto,dir):
         k = int(nombre[1:])
@@ -63,8 +64,9 @@ def addDicP(dicP,m,nombre,monto,dir):
         dic.insertUbiMovil(m,dicP,k,nombre,value)
 
 #Para verificar si esa ubicacion ya existe (ej: si quieren agregar un C1 pero este ya está agregado)
-def searchUbiMovil(dic,nombre,m):
-    k = int(nombre[1:]) % m #slot
+def searchUbiMovil(dic,nombre):
+    m=13
+    k = int(nombre[1:]) % m -1 #slot
     if dic[k] == None:
         return None
     else: #busco key
@@ -76,5 +78,5 @@ def searchUbiMovil(dic,nombre,m):
         if current == None:
             return None
         else:
-            return current.value[0] #devuelvo direccion y monto
+            return current.value #devuelvo direccion y monto
         
