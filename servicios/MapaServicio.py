@@ -186,7 +186,7 @@ def crearMapa(datos):
     se.serializarArchivo(hash, "mapa")
     se.serializarArchivo(mapAux, "mapaAux")
     datos = calculosIniciales(hash, mapAux)
-    se.serializarArchivo(datos, "datos")
+    se.serializarArchivo(datos, "calculosIniciales")
     print("Mapa cargado exitosamente")
 
 def insertarEsquinas(map, V, length):
@@ -241,6 +241,8 @@ def encontrarSlot(map, key):
     found  = False
     length = len(map.head)
     slot = (key % length) - 1
+    vuelta = False
+    slotInicial = slot
     if slot == length:
         slot = 0
     elif slot == -1:
@@ -250,6 +252,9 @@ def encontrarSlot(map, key):
             slot += 1
             if slot == length:
                 slot = 0
+                vuelta = True
+            if vuelta and slotInicial == slot:
+                return None
         else:
             found = True
     return slot

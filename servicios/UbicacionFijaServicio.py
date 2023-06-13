@@ -76,6 +76,9 @@ def existeDir(mapa,dir):
     key = esq[0]
     key = int(key[1:])
     slot = ms.encontrarSlot(mapa, key)
+
+    if slot == None:
+        return False
     
     if mapa.head[slot] == None:
         c = False

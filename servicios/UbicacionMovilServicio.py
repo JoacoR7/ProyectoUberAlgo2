@@ -32,7 +32,6 @@ def load_movil_element(nombre, direccion, monto):
             print(nombre, "ya existe en el mapa, intente nuevamente. ")
         else:
             while True:
-                print("a")
                 try:
                     monto = float(monto)
                     if monto <= 0:
@@ -48,9 +47,12 @@ def load_movil_element(nombre, direccion, monto):
             if nombre[0] == "C": 
                 addDicC(dicC,13,nombre,monto,direccion)
                 s.serializarArchivo(dicC, archivo)
+                print("Auto añadido exitosamente")
             else: 
                 addDicP(dicP,13,nombre,monto,direccion)
                 s.serializarArchivo(dicP, archivo)
+                print("Persona añadida exitosamente")
+            
             
     else:
         print("La dirección: ", dir, " no existe.")
@@ -70,7 +72,7 @@ def addDicP(dicP,m,nombre,monto,dir):
 
 #Para verificar si esa ubicacion ya existe (ej: si quieren agregar un C1 pero este ya está agregado)
 def searchUbiMovil(dic,nombre,m):
-    k = int(nombre[1:]) % m #slot
+    k = int(nombre[1:]) % m -1#slot
     if dic[k] == None:
         return None
     else: #busco key
