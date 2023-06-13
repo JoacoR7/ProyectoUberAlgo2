@@ -8,23 +8,23 @@ dicP = None  # Variable global para almacenar la estructura dicP
 
 def load_movil_element(nombre, direccion, monto):
 
-    mapa = s.buscarMapa()
+    mapa = s.buscarArchivo("mapa")
+    if mapa == None:
+        print("No hay ningún mapa cargado, por favor, cargue el mapa y vuelva a intentarlo")
+        return
     dir = direccion
     direccion = uf.existeDir(mapa,direccion)
     if direccion != False:
 
-        global dicP  # Declaro que estoy utilizando la variable global dicP
-        global dicC
-
-        if dicP is None:
-            dicP = [None] * 13  # Creo la estructura dicP solo la primera vez
-        
-        if dicC is None:
-            dicC = [None] * 13  # Creo la estructura dicC solo la primera vez
-
         if nombre[0] == "C": 
+            dicC = s.buscarArchivo("lista_autos")
+            if dicC == None:
+                dicC = [None] * 13
             dic = dicC
         else: 
+            dicP = s.buscarArchivo("lista_personas")
+            if dicP == None:
+                dicP = [None] * 13
             dic = dicP
         if searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
             print(nombre, "ya existe en el mapa, intente nuevamente. ")
@@ -77,4 +77,11 @@ def searchUbiMovil(dic,nombre,m):
             return None
         else:
             return current.value[0] #devuelvo direccion y monto
+        
+def createTrip(P, ubicacion):
+    lista = rankingAutos(P)
+    return
+
+def rankingAutos(P):
+    return dicC
         

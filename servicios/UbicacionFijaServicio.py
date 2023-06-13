@@ -7,7 +7,10 @@ dicuF = None  # Variable global para almacenar la estructura dicP
 
 def load_fix_element(nombre,direccion):
     global dicuF
-    mapa = s.buscarMapa()
+    mapa = s.buscarArchivo("mapa")
+    if mapa == None:
+        print("No hay ningún mapa cargado, por favor, cargue el mapa y vuelva a intentarlo")
+        return
     #ms.printMap(mapa)
     dir = direccion
     direccion = existeDir(mapa,direccion)
