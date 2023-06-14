@@ -46,6 +46,8 @@ dicUf = uf.load_fix_element("S10", '"<e6,25> <e7,25>"')
 
 
 "python uber.py -create_trip <persona> <direccion>/<elemento>"
-
-r.ranking("P7",dicC,dicP,datosDist)
+destino = ["e1",30,"e2",70]
+r.ranking("P7",dicC,dicP,datosDist,destino)
+print(um.searchUbiMovil(dicC,"C4"))
+print(um.searchUbiMovil(dicP,"P7"))
 

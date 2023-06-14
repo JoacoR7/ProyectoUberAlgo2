@@ -2,7 +2,7 @@ import servicios.MapaServicio as ms
 import servicios.UbicacionMovilServicio as um
 import entidades.linkedlist as l
 import entidades.myqueue as q
-def ranking(persona,dicC,dicP,dist):
+def ranking(persona,dicC,dicP,dist,destino):
     dirPersona = um.searchUbiMovil(dicP,persona) #verificar?
     if dirPersona != None:
         dirP = dirPersona[0]   #dir = [ex,dx,ey,dy]
@@ -28,7 +28,12 @@ def ranking(persona,dicC,dicP,dist):
                         else:
                             current = current.nextNode
         #l.printLista(ranking)
-        verificarMonto(ranking,montoP)
+        viaje, lista = verificarMonto(ranking,montoP)
+        if viaje == True:
+            uber = lista.head.value[0]
+            costo = lista.head.value[1]
+            montoFinal = montoP - costo
+            panelInteractivo(uber, montoFinal, dicP, dicC, destino, persona)
     else: 
         print("La persona no existe, intente nuevamente.")
 
@@ -54,37 +59,66 @@ def verificarMonto(autos,monto):
             while current!=None:
                 print(current.value[0])
                 current = current.nextNode
+            return True, ranking
         else:
             print("No está en condiciones de pagar ningún auto")
-            return
-    if current != None:
-        uber = ranking.head.value[0]
-        costo = ranking.head.value[1]
-        panelInteractivo(uber, monto, costo)
+            return False, False
 
 
-def panelInteractivo(uber,monto,costo):
+def panelInteractivo(uber, monto, dicP, dicC, destino, persona):
         print("¿Desea aceptar el viaje?")
         print("No: Opción 1")
         print("Sí: Opción 2")
         print("Introduzca su opción:")
         fin = False
         while fin != True:
-                try:
-                    opcion = int(input())
-                    if opcion == 1:
-                        print("Nos vemos pronto!")
-                        fin == True
-                    elif opcion == 2:
-                        print("El auto que realizara el recorrido es el ", uber)
-                        nuevoMonto = monto - costo
-                        fin == True
-                        #cambiar direcciones y todo eso
-                    else: 
-                        print("La opción ingresada no es válida, intente nuevamente.")
-                except ValueError:
-                    print("Error: El valor ingresado no es válido, intente nuevamente.")
+            try:
+                opcion = int(input())
+                if opcion == 1:
+                    print("Nos vemos pronto!")
+                    fin = True
+                elif opcion == 2:
+                    print("El auto que realizara el recorrido es el", uber)
+                    cambiarDirecciones(uber,monto, dicP, dicC, destino,persona)
+                    print("Viaje realizado con éxito!")
+                    fin = True
+                else: 
+                    print("La opción ingresada no es válida, intente nuevamente.")
+            except ValueError:
+                print("Error: El valor ingresado no es válido, intente nuevamente.")
 
+def direccionPersona(dic, destino, persona, monto):
+    m=13
+    k = int(persona[1:]) % m -1 #slot
+    if dic[k] == None:
+        return None
+    else: #busco key
+        current = dic[k].head
+        while current != None:
+            if current.key == persona:
+                value = [destino,monto]
+                break
+            current = current.nextNode
+        current.value = value
+        return 
+def direccionAuto(dic, destino, uber):
+    m=13
+    k = int(uber[1:]) % m -1 #slot
+    if dic[k] == None:
+        return None
+    else: #busco key
+        current = dic[k].head
+        while current != None:
+            if current.key == uber:
+                value = destino
+                break
+            current = current.nextNode
+        current.value = value
+        return 
+def cambiarDirecciones(uber, monto, dicP, dicC, destino, persona):
+    direccionPersona(dicP, destino, persona, monto)
+    direccionAuto(dicC, destino, uber)
+    return
 
 
 
