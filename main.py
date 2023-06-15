@@ -22,6 +22,7 @@ mapa = s.buscarMapa()
 print("")
 datosDist = ms.calculosIniciales(mapa, mapAux)
 
+
 um.load_movil_element("P1", "<e8,10> <e10,40>", 2000)
 um.load_movil_element("P7", "<e10,10> <e8,40>", 20)
 um.load_movil_element("P2", "<e1,0> <e3,50>", 4000)
@@ -48,6 +49,6 @@ dicUf = uf.load_fix_element("S10", '"<e6,25> <e7,25>"')
 "python uber.py -create_trip <persona> <direccion>/<elemento>"
 destino = ["e1",30,"e2",70]
 r.ranking("P7",dicC,dicP,datosDist,destino)
-print(um.searchUbiMovil(dicC,"C4"))
-print(um.searchUbiMovil(dicP,"P7"))
+#print(um.searchUbiMovil(dicC,"C4"))
+#print(um.searchUbiMovil(dicP,"P7"))
 

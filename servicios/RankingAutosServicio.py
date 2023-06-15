@@ -2,6 +2,7 @@ import servicios.MapaServicio as ms
 import servicios.UbicacionMovilServicio as um
 import entidades.linkedlist as l
 import entidades.myqueue as q
+import entidades.graph as g
 def ranking(persona,dicC,dicP,dist,destino):
     dirPersona = um.searchUbiMovil(dicP,persona) #verificar?
     if dirPersona != None:
@@ -33,6 +34,7 @@ def ranking(persona,dicC,dicP,dist,destino):
             uber = lista.head.value[0]
             costo = lista.head.value[1]
             montoFinal = montoP - costo
+#MUESTRO EL CAMINO MÁS CORTO Y LA DISTANCIA DE LA PERSONA A SU DESTINO ACÁ
             panelInteractivo(uber, montoFinal, dicP, dicC, destino, persona)
     else: 
         print("La persona no existe, intente nuevamente.")

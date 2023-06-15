@@ -74,51 +74,54 @@ def existeDir(mapa,dir):
     key = esq[0]
     key = int(key[1:])
     slot = ms.encontrarSlot(mapa, key)
-    
-    if mapa.head[slot] == None:
-        c = False
-    else:
-        current = mapa.head[slot].head 
-        while current != None:
-            if current.value[0] == int((esq[1])[1:]):
-                c = float(current.value[1])
-                break
-            current = current.nextNode
-        if current == None:
-            c = False
-    
+
     key1 = esq[1]
     key1 = int(key1[1:])
     slot1 = ms.encontrarSlot(mapa, key1)
-    
-    if mapa.head[slot1] == None:
-        c = False
-    else:
-        current = mapa.head[slot1].head 
-        while current != None:
-            if current.value[0] == int((esq[0])[1:]):
-                c1 = float(current.value[1])
-                break
-            current = current.nextNode
-        if current == None:
-            c1 = False
 
-    if c != False:
-        if c == dx+dy: #verifico que el largo de las esquinas sean correctas
-            crear = True
+    if slot != None and slot1 != None:
+        if mapa.head[slot] == None:
+            c = False
+        else:
+            current = mapa.head[slot].head 
+            while current != None:
+                if current.value[0] == int((esq[1])[1:]):
+                    c = float(current.value[1])
+                    break
+                current = current.nextNode
+            if current == None:
+                c = False
+        
+        if mapa.head[slot1] == None:
+            c = False
+        else:
+            current = mapa.head[slot1].head 
+            while current != None:
+                if current.value[0] == int((esq[0])[1:]):
+                    c1 = float(current.value[1])
+                    break
+                current = current.nextNode
+            if current == None:
+                c1 = False
+
+        if c != False:
+            if c == dx+dy: #verifico que el largo de las esquinas sean correctas
+                crear = True
+            else:
+                crear = False
+            direccion = [ex,dx,ey,dy]
+        elif c1 != False:
+            if c1 == dx+dy: #verifico que el largo de las esquinas sean correctas
+                crear = True
+            else:
+                crear = False
+            direccion = [ey,dy,ex,dx]
         else:
             crear = False
-        direccion = [ex,dx,ey,dy]
-    elif c1 != False:
-        if c1 == dx+dy: #verifico que el largo de las esquinas sean correctas
-            crear = True
+            
+        if crear == True:      
+            return direccion
         else:
-            crear = False
-        direccion = [ey,dy,ex,dx]
+            return crear   #FALSE
     else:
-        crear = False
-    
-    if crear == True:      
-        return direccion
-    else:
-        return crear   #FALSE
+        return False

@@ -883,36 +883,41 @@ def calculoEsquinas(s,v):
 
 
 def shortestPath(grafo,mapAux, s, v):
-    vertice = initRelax(mapAux,s) #distancia, padre
-    #verticeP = initRelax2(grafo,s) #padre
-    verticeAux = vertice
-    #####visitado seria el value[1] y distancias el value[0] ---> visitDist
-    #distancias = [0]*len(vertice)
-    #visitado = [None]*len(grafo.head)
-    visitDist = mapAux
-    Q = minQueue(vertice)
-    while length(Q) > 0:
-        u = dequeue(Q)
-        slot = ms.encontrarSlot(grafo,u)
-        node = grafo.head[slot]    ###
-        if node.head.value[0] == None:
-            node = None
-        #for i in range(0,len(grafo.head)):
-        if node != None:
-            node = node.head
-        
-        while node != None:
-            slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
-            #slot = (node.value[0]-1 % longitud)-1 
-            if visitDist.head[slot2].head.value[1] == None: #visitado(1)
-                relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
-            node = node.nextNode
-        visitDist.head[slot].head.value[1] = u #visitado
-        verticeAux.head[slot].head.value[0] = None #value[0]=distancia
-        Q = minQueue(verticeAux)
-    slotD = ms.encontrarSlot(visitDist,v)
-    distanciaFinal = visitDist.head[slotD].head.value[0]
-    return camino(vertice,s,v), distanciaFinal #distancia
+    #verifico antes si ambos vertices existen
+    existeS = ms.encontrarSlot(grafo,s)
+    existeV = ms.encontrarSlot(grafo,(v))
+    if existeV != None and existeS != None:
+        vertice = initRelax(mapAux,s) #distancia, padre
+        #verticeP = initRelax2(grafo,s) #padre
+        verticeAux = vertice
+        #####visitado seria el value[1] y distancias el value[0] ---> visitDist
+        #distancias = [0]*len(vertice)
+        #visitado = [None]*len(grafo.head)
+        visitDist = mapAux
+        Q = minQueue(vertice)
+        while length(Q) > 0:
+            u = dequeue(Q)
+            slot = ms.encontrarSlot(grafo,u)
+            node = grafo.head[slot]    ###
+            if node.head.value[0] == None:
+                node = None
+            #for i in range(0,len(grafo.head)):
+            if node != None:
+                node = node.head
+            
+            while node != None:
+                slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
+                #slot = (node.value[0]-1 % longitud)-1 
+                if visitDist.head[slot2].head.value[1] == None: #visitado(1)
+                    relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
+                node = node.nextNode
+            visitDist.head[slot].head.value[1] = u #visitado
+            verticeAux.head[slot].head.value[0] = None #value[0]=distancia
+            Q = minQueue(verticeAux)
+        slotD = ms.encontrarSlot(visitDist,v)
+        distanciaFinal = visitDist.head[slotD].head.value[0]
+        return camino(vertice,s,v), distanciaFinal #distancia
+    else: return None, None
 
 
 """
