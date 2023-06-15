@@ -56,6 +56,7 @@ def load_movil_element(nombre, direccion, monto):
             
     else:
         print("La dirección: ", dir, " no existe.")
+    return dicC,dicP
 
 def addDicC(dicC,m,nombre,monto,dir):
         k = int(nombre[1:])
@@ -84,7 +85,7 @@ def searchUbiMovil(dic,nombre,m):
         if current == None:
             return None
         else:
-            return current.value[0] #devuelvo direccion y monto
+            return current.value #devuelvo direccion y monto
         
 def createTrip(P, ubicacion):
     lista = rankingAutos(P)

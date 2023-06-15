@@ -4,7 +4,6 @@ import entidades.mystack as s
 import entidades.algo1 as a
 import entidades.dictionary as d
 import entidades.graph as g
-import servicios.serializacion as se
 import copy
 import re
 
@@ -101,6 +100,7 @@ def calculosIniciales(map, mapAux):
                             continue
                         dato[1] = distancia
                         l.add(datos[1][i],dato)
+    print("")
     return datos
 
 def obtenerAristas(secuencia):
@@ -166,17 +166,7 @@ def filtrarEsquinas(array):
 
     return esquinasFiltradas
 
-def crearMapa(datos):
-    mapa = se.buscarArchivo("mapa")
-    if mapa != None:
-        print("Ya hay un mapa existente, ¿desea sobreescribir el archivo?")
-        print("1: Sí\n2: No")
-        opcion = input()
-        if int(opcion) == 2:
-            return
-    datos = se.extraerEsquinasYCalles(datos)
-    A = obtenerAristas(datos[1])
-    V = obtenerEsquinas(datos[0])
+def crearMapa(V, A):
     #length: cantidad de vértices
     length = len(V)
     dic = [None]*length
@@ -185,11 +175,7 @@ def crearMapa(datos):
     insertarEsquinas(hash, V, length)
     mapAux = copy.deepcopy(hash)
     insertarCalles(hash, A, length)
-    se.serializarArchivo(hash, "mapa")
-    se.serializarArchivo(mapAux, "mapaAux")
-    datos = calculosIniciales(hash, mapAux)
-    se.serializarArchivo(datos, "calculosIniciales")
-    print("Mapa creado exitosamente")
+    return hash, mapAux
 
 def insertarEsquinas(map, V, length):
     for i in range(len(V)):
@@ -243,23 +229,23 @@ def encontrarSlot(map, key):
     found  = False
     length = len(map.head)
     slot = (key % length) - 1
-    vuelta = False
-    slotInicial = slot
+    cont = 1
     if slot == length:
         slot = 0
     elif slot == -1:
         slot = length-1
-    while not found:
+    while not found and cont < length:
         if map.head[slot].head.key != key:
             slot += 1
+            cont += 1
             if slot == length:
                 slot = 0
-                vuelta = True
-            if vuelta and slotInicial == slot:
-                return None
         else:
             found = True
-    return slot
+    if found == False:
+        return None
+    else:
+        return slot
 
 
                 

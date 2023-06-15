@@ -5,6 +5,7 @@ from entidades.mystack import *
 import math
 import servicios.MapaServicio as ms
 import copy
+import re
 """Ejercicio 1
 Implementar la función crear grafo que dada una lista de vértices y una lista de aristas cree un grafo con la representación por 
 Lista de Adyacencia.
@@ -859,38 +860,64 @@ def camino(vertice,s,v):
                 camino = None
                 break
         return camino
+    
+def calculoEsquinas(s,v):
+    patron1 = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
+    rdo1 = re.findall(patron1, s)
+    ex1 = rdo1[0][0]
+    dx1 = float(rdo1[0][1])
+    ey1 = rdo1[1][0]
+    dy1 = float(rdo1[1][1])
+
+    patron2 = r"<(\w+),\s*([-+]?\d*\.\d+|\d+)>"
+    rdo2 = re.findall(patron2, v)
+    ex2 = rdo2[0][0]
+    dx2 = float(rdo2[0][1])
+    ey2 = rdo2[1][0]
+    dy2 = float(rdo2[1][1])
+    
+    s = int(ex1[1:])
+    v = int(ex2[1:])
+    restar = dx1+dy2   ##ver tema de si es doble mano la calle
+    return s, v, restar
+
 
 def shortestPath(grafo,mapAux, s, v):
-    vertice = initRelax(mapAux,s) #distancia, padre
-    #verticeP = initRelax2(grafo,s) #padre
-    verticeAux = vertice
-    #####visitado seria el value[1] y distancias el value[0] ---> visitDist
-    #distancias = [0]*len(vertice)
-    #visitado = [None]*len(grafo.head)
-    visitDist = mapAux
-    Q = minQueue(vertice)
-    while length(Q) > 0:
-        u = dequeue(Q)
-        slot = ms.encontrarSlot(grafo,u)
-        node = grafo.head[slot]    ###
-        if node.head.value[0] == None:
-            node = None
-        #for i in range(0,len(grafo.head)):
-        if node != None:
-            node = node.head
-        
-        while node != None:
-            slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
-            #slot = (node.value[0]-1 % longitud)-1 
-            if visitDist.head[slot2].head.value[1] == None: #visitado(1)
-                relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
-            node = node.nextNode
-        visitDist.head[slot].head.value[1] = u #visitado
-        verticeAux.head[slot].head.value[0] = None #value[0]=distancia
-        Q = minQueue(verticeAux)
-    slotD = ms.encontrarSlot(visitDist,v)
-    distanciaFinal = visitDist.head[slotD].head.value[0]
-    return camino(vertice,s,v), distanciaFinal #distancia
+    #verifico antes si ambos vertices existen
+    existeS = ms.encontrarSlot(grafo,s)
+    existeV = ms.encontrarSlot(grafo,(v))
+    if existeV != None and existeS != None:
+        vertice = initRelax(mapAux,s) #distancia, padre
+        #verticeP = initRelax2(grafo,s) #padre
+        verticeAux = vertice
+        #####visitado seria el value[1] y distancias el value[0] ---> visitDist
+        #distancias = [0]*len(vertice)
+        #visitado = [None]*len(grafo.head)
+        visitDist = mapAux
+        Q = minQueue(vertice)
+        while length(Q) > 0:
+            u = dequeue(Q)
+            slot = ms.encontrarSlot(grafo,u)
+            node = grafo.head[slot]    ###
+            if node.head.value[0] == None:
+                node = None
+            #for i in range(0,len(grafo.head)):
+            if node != None:
+                node = node.head
+            
+            while node != None:
+                slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
+                #slot = (node.value[0]-1 % longitud)-1 
+                if visitDist.head[slot2].head.value[1] == None: #visitado(1)
+                    relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
+                node = node.nextNode
+            visitDist.head[slot].head.value[1] = u #visitado
+            verticeAux.head[slot].head.value[0] = None #value[0]=distancia
+            Q = minQueue(verticeAux)
+        slotD = ms.encontrarSlot(visitDist,v)
+        distanciaFinal = visitDist.head[slotD].head.value[0]
+        return camino(vertice,s,v), distanciaFinal #distancia
+    else: return None, None
 
 
 """
