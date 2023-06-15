@@ -22,6 +22,7 @@ def createTrip(P, ubicacion):
     if len(direccion) != 4:
         print("Ingrese una dirección válida")
         return
+    print("AAAAAAAAAAAAAA")
     ranking(P, direccion)
     
 

@@ -7,6 +7,7 @@ import servicios.serializacion as se
 
 if __name__ == "__main__":
     args = sys.argv
+    print(args)
     if len(args) == 1:
         print("Comandos: -h, -help, -load_movil_element, -load_fix_element, -create_trip, -create_map")
     else:
@@ -17,6 +18,7 @@ if __name__ == "__main__":
             mapa = se.buscarArchivo("mapa")
             if mapa == None:
                 print("No hay ningún mapa cargado, antes de realizar cualquier operación, por favor cargue el mapa")
+                command = None
             else:
                 if command == "-load_movil_element":
                     um.load_movil_element(args[2], args[3], args[4])
