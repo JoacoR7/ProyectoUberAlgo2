@@ -11,8 +11,7 @@ import servicios.RankingAutosServicio as r
 
 
 
-
-#ms.crearMapa("datos2")
+ms.crearMapa("C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoUberAlgo2\\mapa3")
 mapa = s.buscarArchivo("mapa")
 mapaAux = s.buscarArchivo("mapaAux")
 
