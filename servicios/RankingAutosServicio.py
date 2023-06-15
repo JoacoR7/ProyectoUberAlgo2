@@ -1,10 +1,35 @@
 import servicios.MapaServicio as ms
 import servicios.UbicacionMovilServicio as um
+import servicios.UbicacionFijaServicio as uf
+import servicios.serializacion as s
 import entidades.linkedlist as l
 import entidades.myqueue as q
 import entidades.graph as g
-def ranking(persona,dicC,dicP,dist,destino):
-    dirPersona = um.searchUbiMovil(dicP,persona) #verificar?
+
+def createTrip(P, ubicacion):
+    if ubicacion[0] == "<":
+        elementos = ubicacion.split(" ")
+        direccion = []
+        for elemento in elementos:
+            elemento = elemento.strip("<>").split(",")
+            direccion.append(elemento[0])
+            try:
+                direccion.append(int(elemento[1]))
+            except:
+                print("Direccion incorrecta, intente de nuevo")
+    else:
+        direccion = uf.searchUbiFija(ubicacion)
+    if len(direccion) != 4:
+        print("Ingrese una dirección válida")
+        return
+    ranking(P, direccion)
+    
+
+def ranking(persona,destino):
+    dist = s.buscarArchivo("calculosIniciales")
+    dicC = s.buscarArchivo("lista_autos")
+    dicP = s.buscarArchivo("lista_personas")
+    dirPersona = um.searchUbiMovil(dicP,persona, 13) #verificar?
     if dirPersona != None:
         dirP = dirPersona[0]   #dir = [ex,dx,ey,dy]
         montoP = dirPersona[1]

@@ -4,6 +4,7 @@ import entidades.mystack as s
 import entidades.algo1 as a
 import entidades.dictionary as d
 import entidades.graph as g
+import servicios.serializacion as se
 import copy
 import re
 
@@ -166,7 +167,17 @@ def filtrarEsquinas(array):
 
     return esquinasFiltradas
 
-def crearMapa(V, A):
+def crearMapa(datos):
+    mapa = se.buscarArchivo("mapa")
+    if mapa != None:
+        print("Ya hay un mapa existente, ¿desea sobreescribir el archivo?")
+        print("1: Sí\n2: No")
+        opcion = input()
+        if int(opcion) == 2:
+            return
+    datos = se.extraerEsquinasYCalles(datos)
+    A = obtenerAristas(datos[1])
+    V = obtenerEsquinas(datos[0])
     #length: cantidad de vértices
     length = len(V)
     dic = [None]*length
@@ -175,7 +186,11 @@ def crearMapa(V, A):
     insertarEsquinas(hash, V, length)
     mapAux = copy.deepcopy(hash)
     insertarCalles(hash, A, length)
-    return hash, mapAux
+    se.serializarArchivo(hash, "mapa")
+    se.serializarArchivo(mapAux, "mapaAux")
+    datos = calculosIniciales(hash, mapAux)
+    se.serializarArchivo(datos, "calculosIniciales")
+    print("Mapa creado exitosamente")
 
 def insertarEsquinas(map, V, length):
     for i in range(len(V)):

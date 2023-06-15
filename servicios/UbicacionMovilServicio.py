@@ -47,16 +47,15 @@ def load_movil_element(nombre, direccion, monto):
             if nombre[0] == "C": 
                 addDicC(dicC,13,nombre,monto,direccion)
                 s.serializarArchivo(dicC, archivo)
-                print("Auto añadido exitosamente")
+                print("Auto " + nombre + " añadido exitosamente")
             else: 
                 addDicP(dicP,13,nombre,monto,direccion)
                 s.serializarArchivo(dicP, archivo)
-                print("Persona añadida exitosamente")
+                print("Persona " + nombre + " añadida exitosamente")
             
             
     else:
         print("La dirección: ", dir, " no existe.")
-    return dicC,dicP
 
 def addDicC(dicC,m,nombre,monto,dir):
         k = int(nombre[1:])
@@ -86,11 +85,3 @@ def searchUbiMovil(dic,nombre,m):
             return None
         else:
             return current.value #devuelvo direccion y monto
-        
-def createTrip(P, ubicacion):
-    lista = rankingAutos(P)
-    return
-
-def rankingAutos(P):
-    return dicC
-        

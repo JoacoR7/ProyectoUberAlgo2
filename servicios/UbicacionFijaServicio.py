@@ -6,8 +6,8 @@ import servicios.MapaServicio as ms
 dicuF = None  # Variable global para almacenar la estructura dicP
 
 def load_fix_element(nombre,direccion):
-    global dicuF
-    mapa = s.buscarMapa()
+    dicuF = s.buscarArchivo("ubicaciones_fijas")
+    mapa = s.buscarArchivo("mapa")
     #ms.printMap(mapa)
     dir = direccion
     direccion = existeDir(mapa,direccion)
@@ -15,19 +15,23 @@ def load_fix_element(nombre,direccion):
 
         if dicuF is None:
             dicuF = [None]*7 
-
-        if searchUbiFija(dicuF,nombre) != False:
-            print(nombre, "ya existe en el mapa, intente nuevamente. ")
         else:
-            #AGREGO AL DIC
-            pos = calcularPos(nombre)
-            dic.insertInPos(dicuF, pos, nombre, direccion)
+            if searchUbiFija(nombre) != False:
+                print(nombre, "La ubicación ya existe en el mapa, intente nuevamente. ")
+                return
+
+        #AGREGO AL DIC
+        pos = calcularPos(nombre)
+        dic.insertInPos(dicuF, pos, nombre, direccion)
+        s.serializarArchivo(dicuF, "ubicaciones_fijas")
+        print("Ubicación " + nombre + " añadida exitosamente")
+
     else:
         print("La dirección: ", dir, " no existe.")
-    return dicuF
 
 
-def searchUbiFija(dic,nombre): #dado el nombre de la ubicacion, busca la dirección (si es que existe)
+def searchUbiFija(nombre): #dado el nombre de la ubicacion, busca la dirección (si es que existe)
+    dic = s.buscarArchivo("ubicaciones_fijas")
     pos = calcularPos(nombre)
     if dic[pos] == None:
         return False
