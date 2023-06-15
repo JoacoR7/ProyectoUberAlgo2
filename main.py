@@ -11,7 +11,7 @@ import servicios.RankingAutosServicio as r
 
 
 
-ms.crearMapa("C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoUberAlgo2\\mapa3")
+"""#ms.crearMapa("C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoUberAlgo2\\mapa3")
 mapa = s.buscarArchivo("mapa")
 mapaAux = s.buscarArchivo("mapaAux")
 
@@ -43,8 +43,8 @@ destino = ["e20",5,"e47",55]
 #r.ranking("P4", destino)
 #print(um.searchUbiMovil(dicC,"C4"))
 #print(um.searchUbiMovil(dicP,"P7"))
-#"<e20,5> <e47,55>"
+#"<e20,5> <e47,55>"""
 
 
-r.createTrip("P4", "H1")
+r.createTrip("P1", "H1")
 

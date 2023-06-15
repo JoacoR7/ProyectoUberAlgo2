@@ -24,7 +24,6 @@ if __name__ == "__main__":
                 print("No hay ningún mapa cargado, antes de realizar cualquier operación, por favor cargue el mapa")
                 command = None
             else:
-                print(command)
                 if command == "-load_movil_element":
                     um.load_movil_element(args[2], args[3], args[4])
                 elif command == "-load_fix_element":
