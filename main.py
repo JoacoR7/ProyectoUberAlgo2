@@ -24,7 +24,7 @@ um.load_movil_element("P2", "<e1,0> <e3,50>", 4000)
 um.load_movil_element("P3", "<e7,20> <e9,30>", 2500)
 um.load_movil_element("P4", "<e4,10> <e9,40>", 500)
 um.load_movil_element("C1", "<e14,60> <e9,40>", 200)
-um.load_movil_element("C2", "<e1,60> <e2,40>", 50)
+um.load_movil_element("C2", "<e14,70> <e9,30>", 200)
 um.load_movil_element("C3", "<e2,0> <e6,50>", 110)
 um.load_movil_element("C4", "<e9,35> <e10,15>", 20)
 
@@ -46,6 +46,7 @@ destino = ["e20",5,"e47",55]
 #print(um.searchUbiMovil(dicC,"C4"))
 #print(um.searchUbiMovil(dicP,"P7"))
 #"<e20,5> <e47,55>"
+
 
 r.createTrip("P4", "H1")
 

@@ -22,7 +22,6 @@ def createTrip(P, ubicacion):
     if len(direccion) != 4:
         print("Ingrese una dirección válida")
         return
-    print("AAAAAAAAAAAAAA")
     ranking(P, direccion)
     
 
@@ -30,7 +29,7 @@ def ranking(persona,destino):
     dist = s.buscarArchivo("calculosIniciales")
     dicC = s.buscarArchivo("lista_autos")
     dicP = s.buscarArchivo("lista_personas")
-    dirPersona = um.searchUbiMovil(dicP,persona, 13) #verificar?
+    dirPersona = um.searchUbiMovil(dicP,persona, 13) #verificar
     if dirPersona != None:
         dirP = dirPersona[0]   #dir = [ex,dx,ey,dy]
         montoP = dirPersona[1]
@@ -55,17 +54,17 @@ def ranking(persona,destino):
                         else:
                             current = current.nextNode
         #l.printLista(ranking)
-        viaje, lista = verificarMonto(ranking,montoP)
+        viaje, lista = verificarMonto(ranking,montoP,dicC)
         if viaje == True:
             uber = lista.head.value[0]
             costo = lista.head.value[1]
             montoFinal = montoP - costo
 #MUESTRO EL CAMINO MÁS CORTO Y LA DISTANCIA DE LA PERSONA A SU DESTINO ACÁ
-            panelInteractivo(uber, montoFinal, dicP, dicC, destino, persona)
+            panelInteractivo(uber, montoFinal, dicP, dicC, destino, persona, lista, montoP)
     else: 
         print("La persona no existe, intente nuevamente.")
 
-def verificarMonto(autos,monto):
+def verificarMonto(autos,monto,dicC):
     current = autos.head
     ranking = l.LinkedList() #guardo el ranking de los autos que la persona puede pagar de menor a mayor
     while current != None:
@@ -82,38 +81,67 @@ def verificarMonto(autos,monto):
         print("Ranking de los 3 autos más cercanos que puede pagar:")
         print(current.value[0],current.nextNode.value[0],current.nextNode.nextNode.value[0])
     else:
-        print("Ranking de los autos que puede pagar:")
+        print("Ranking de los autos disponibles que puede pagar:")
         if current != None:
+            cont = 1
             while current!=None:
-                print(current.value[0])
+                direccionUber = um.searchUbiMovil(dicC,current.value[0],13)
+                montoUber = direccionUber[1]
+                direccionUber = direccionUber[0]
+                direccionUber = "<" + direccionUber[0] + "," + str(direccionUber[1]) + ">, <" + direccionUber[2] + "," + str(direccionUber[3]) + ">"
+                print(str(cont) + " - Auto " + current.value[0] + ": \n       Dirección: " + direccionUber + "\n       Monto: " + str(montoUber))
                 current = current.nextNode
+                cont += 1
             return True, ranking
         else:
             print("No está en condiciones de pagar ningún auto")
             return False, False
 
 
-def panelInteractivo(uber, monto, dicP, dicC, destino, persona):
+def panelInteractivo(uber, monto, dicP, dicC, destino, persona, lista, montoP):
         print("¿Desea aceptar el viaje?")
-        print("No: Opción 1")
-        print("Sí: Opción 2")
+        print("1: Sí")
+        print("2: No")
         print("Introduzca su opción:")
         fin = False
         while fin != True:
             try:
-                opcion = int(input())
-                if opcion == 1:
+
+                opcion = preguntarOpcion()
+                if opcion == 2:
                     print("Nos vemos pronto!")
                     fin = True
-                elif opcion == 2:
-                    print("El auto que realizara el recorrido es el", uber)
-                    cambiarDirecciones(uber,monto, dicP, dicC, destino,persona)
-                    print("Viaje realizado con éxito!")
-                    fin = True
-                else: 
+
+                elif opcion == 1:
+                    print("Elija el auto con el que quiere realizar el recorrido (Auto recomendado " + uber + ")")
+                    opcion = preguntarOpcion()
+                    if opcion<=l.length(lista):
+                        if opcion == 2:
+                            uber = lista.head.nextNode.value[0]
+                            costo = lista.head.nextNode.value[1]
+                            monto = montoP - costo
+                        elif opcion == 3:
+                            uber = lista.head.nextNode.nextNode.value[0]
+                            costo = lista.head.nextNode.nextNode.value[1]
+                            monto = montoP - costo
+                        print("El auto que realizara el recorrido es el", uber)
+                        cambiarDirecciones(uber,monto, dicP, dicC, destino,persona)
+                        print("Viaje realizado con éxito!")
+                        fin = True
+
+                if not fin:
                     print("La opción ingresada no es válida, intente nuevamente.")
             except ValueError:
                 print("Error: El valor ingresado no es válido, intente nuevamente.")
+
+def preguntarOpcion():
+    try:
+        opcion = int(input())
+    except:
+        opcion = None
+    return opcion
+
+    
 
 def direccionPersona(dic, destino, persona, monto):
     m=13
@@ -127,8 +155,8 @@ def direccionPersona(dic, destino, persona, monto):
                 value = [destino,monto]
                 break
             current = current.nextNode
-        current.value = value
-        return 
+        current.value = value 
+    s.serializarArchivo(dic, "lista_personas")
 def direccionAuto(dic, destino, uber):
     m=13
     k = int(uber[1:]) % m -1 #slot
@@ -142,7 +170,7 @@ def direccionAuto(dic, destino, uber):
                 break
             current = current.nextNode
         current.value = value
-        return 
+    s.serializarArchivo(dic, "lista_autos")
 def cambiarDirecciones(uber, monto, dicP, dicC, destino, persona):
     direccionPersona(dicP, destino, persona, monto)
     direccionAuto(dicC, destino, uber)
