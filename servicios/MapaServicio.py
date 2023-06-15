@@ -96,6 +96,8 @@ def calculosIniciales(map, mapAux):
                         dato = [0]*2
                         dato[0] = fin
                         _, distancia = g.shortestPath(map, ma, inicio, fin)
+                        if distancia == None:
+                            continue
                         dato[1] = distancia
                         l.add(datos[1][i],dato)
     print("")
@@ -227,18 +229,23 @@ def encontrarSlot(map, key):
     found  = False
     length = len(map.head)
     slot = (key % length) - 1
+    cont = 1
     if slot == length:
         slot = 0
     elif slot == -1:
         slot = length-1
-    while not found:
+    while not found and cont < length:
         if map.head[slot].head.key != key:
             slot += 1
+            cont += 1
             if slot == length:
                 slot = 0
         else:
             found = True
-    return slot
+    if found == False:
+        return None
+    else:
+        return slot
 
 
                 
