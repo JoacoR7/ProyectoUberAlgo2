@@ -908,8 +908,10 @@ def shortestPath(grafo,mapAux, s, v):
             while node != None:
                 slot2 = ms.encontrarSlot(grafo,(node.value[0])) #slot del visitado
                 #slot = (node.value[0]-1 % longitud)-1 
-                if visitDist.head[slot2].head.value[1] == None: #visitado(1)
-                    relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
+                if slot2 != None:
+                    if visitDist.head[slot2].head != None:
+                        if visitDist.head[slot2].head.value[1] == None: #visitado(1)
+                            relax(vertice,u,node.value,visitDist,slot,slot2) #distancia
                 node = node.nextNode
             visitDist.head[slot].head.value[1] = u #visitado
             verticeAux.head[slot].head.value[0] = None #value[0]=distancia

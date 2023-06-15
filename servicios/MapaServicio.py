@@ -188,7 +188,7 @@ def encontrarSlot(map, key):
     found  = False
     length = len(map.head)
     slot = (key % length) - 1
-    cont = 1
+    cont = 0
     if slot == length:
         slot = 0
     elif slot == -1:
