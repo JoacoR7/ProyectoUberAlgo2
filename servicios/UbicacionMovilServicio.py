@@ -8,25 +8,27 @@ dicP = None  # Variable global para almacenar la estructura dicP
 
 def load_movil_element(nombre, direccion, monto):
 
-    mapa = s.buscarMapa()
+    mapa = s.buscarArchivo("mapa")
+    if mapa == None:
+        print("No hay ningún mapa cargado, por favor, cargue el mapa y vuelva a intentarlo")
+        return
     dir = direccion
     direccion = uf.existeDir(mapa,direccion)
     if direccion != False:
 
-        global dicP  # Declaro que estoy utilizando la variable global dicP
-        global dicC
-
-        if dicP is None:
-            dicP = [None] * 13  # Creo la estructura dicP solo la primera vez
-        
-        if dicC is None:
-            dicC = [None] * 13  # Creo la estructura dicC solo la primera vez
-
         if nombre[0] == "C": 
+            dicC = s.buscarArchivo("lista_autos")
+            if dicC == None:
+                dicC = [None] * 13
             dic = dicC
+            archivo = "lista_autos"
         else: 
+            dicP = s.buscarArchivo("lista_personas")
+            if dicP == None:
+                dicP = [None] * 13
             dic = dicP
-        if searchUbiMovil(dic,nombre) != None: #verifico que el nombre no exista
+            archivo = "lista_personas"
+        if searchUbiMovil(dic,nombre,13) != None: #verifico que el nombre no exista
             print(nombre, "ya existe en el mapa, intente nuevamente. ")
         else:
             while True:
@@ -44,8 +46,14 @@ def load_movil_element(nombre, direccion, monto):
             #agrego al dic
             if nombre[0] == "C": 
                 addDicC(dicC,13,nombre,monto,direccion)
+                s.serializarArchivo(dicC, archivo)
+                print("Auto añadido exitosamente")
             else: 
                 addDicP(dicP,13,nombre,monto,direccion)
+                s.serializarArchivo(dicP, archivo)
+                print("Persona añadida exitosamente")
+            
+            
     else:
         print("La dirección: ", dir, " no existe.")
     return dicC,dicP
@@ -64,9 +72,8 @@ def addDicP(dicP,m,nombre,monto,dir):
         dic.insertUbiMovil(m,dicP,k,nombre,value)
 
 #Para verificar si esa ubicacion ya existe (ej: si quieren agregar un C1 pero este ya está agregado)
-def searchUbiMovil(dic,nombre):
-    m=13
-    k = int(nombre[1:]) % m -1 #slot
+def searchUbiMovil(dic,nombre,m):
+    k = int(nombre[1:]) % m -1#slot
     if dic[k] == None:
         return None
     else: #busco key
@@ -79,4 +86,11 @@ def searchUbiMovil(dic,nombre):
             return None
         else:
             return current.value #devuelvo direccion y monto
+        
+def createTrip(P, ubicacion):
+    lista = rankingAutos(P)
+    return
+
+def rankingAutos(P):
+    return dicC
         
