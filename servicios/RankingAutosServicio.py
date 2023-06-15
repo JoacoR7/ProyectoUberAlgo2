@@ -177,7 +177,8 @@ def direccionAuto(dic, destino, uber):
         current = dic[k].head
         while current != None:
             if current.key == uber:
-                value = destino
+                value = current.value
+                value[0] = destino
                 break
             current = current.nextNode
         current.value = value

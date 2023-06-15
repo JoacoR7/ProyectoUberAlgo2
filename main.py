@@ -7,7 +7,6 @@ import servicios.UbicacionMovilServicio as um
 import entidades.graph as g
 import servicios.UbicacionFijaServicio as uf
 #servicios.serializacion.serializarPersonas(["A", "B", "C"])
-from entidades.borrar import *
 import servicios.RankingAutosServicio as r
 
 
