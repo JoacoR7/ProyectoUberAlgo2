@@ -29,8 +29,15 @@ def ranking(persona,destino):
     dist = s.buscarArchivo("calculosIniciales")
     dicC = s.buscarArchivo("lista_autos")
     dicP = s.buscarArchivo("lista_personas")
+    mapaAux = s.buscarArchivo("mapaAux")
+    mapa = s.buscarArchivo("mapa")
     dirPersona = um.searchUbiMovil(dicP,persona, 13) #verificar
-    if dirPersona != None:
+    print(destino)
+    print(dirPersona)
+    ex = int(dirPersona[0][0][1:])
+    ey = int(destino[0][1:])
+    camino, distanciaF = g.shortestPath(mapa,mapaAux,ex,ey)
+    if dirPersona != None and camino != None:
         dirP = dirPersona[0]   #dir = [ex,dx,ey,dy]
         montoP = dirPersona[1]
         ranking = l.LinkedList()
@@ -53,16 +60,21 @@ def ranking(persona,destino):
                             break
                         else:
                             current = current.nextNode
-        #l.printLista(ranking)
         viaje, lista = verificarMonto(ranking,montoP,dicC)
         if viaje == True:
             uber = lista.head.value[0]
             costo = lista.head.value[1]
             montoFinal = montoP - costo
-#MUESTRO EL CAMINO MÁS CORTO Y LA DISTANCIA DE LA PERSONA A SU DESTINO ACÁ
+
+            print("El camino más corto para llegar a destino:", camino, "con una distancia igual a", distanciaF)
             panelInteractivo(uber, montoFinal, dicP, dicC, destino, persona, lista, montoP)
     else: 
-        print("La persona no existe, intente nuevamente.")
+        if dirPersona == None and camino != None:
+            print("La persona no existe, intente nuevamente.")
+        elif dirPersona != None and camino == None:
+            print("No existe un camino entre ", persona, "y ", destino, ".")
+        else:
+            print("No existen los datos ingresados, intente nuevamente.")
 
 def verificarMonto(autos,monto,dicC):
     current = autos.head
@@ -75,7 +87,6 @@ def verificarMonto(autos,monto,dicC):
             current = current.nextNode
         else:
             current = current.nextNode
-    #l.printLista(ranking)
     current = ranking.head
     if l.length(ranking) >= 3:
         print("Ranking de los 3 autos más cercanos que puede pagar:")
