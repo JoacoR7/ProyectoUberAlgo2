@@ -97,6 +97,8 @@ def calculosIniciales(map, mapAux):
                         dato = [0]*2
                         dato[0] = fin
                         _, distancia = g.shortestPath(map, ma, inicio, fin)
+                        if distancia == None:
+                            continue
                         dato[1] = distancia
                         l.add(datos[1][i],dato)
     return datos
@@ -187,7 +189,7 @@ def crearMapa(datos):
     se.serializarArchivo(mapAux, "mapaAux")
     datos = calculosIniciales(hash, mapAux)
     se.serializarArchivo(datos, "calculosIniciales")
-    print("Mapa cargado exitosamente")
+    print("Mapa creado exitosamente")
 
 def insertarEsquinas(map, V, length):
     for i in range(len(V)):
