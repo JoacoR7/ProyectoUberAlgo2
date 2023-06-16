@@ -35,36 +35,53 @@ def ranking(persona,destino):
     ex = int(dirPersona[0][2][1:])
     ey = int(destino[2][1:])
     camino, distanciaF = g.shortestPath(mapa,mapaAux,ex,ey)
+    if distanciaF == None:
+        print("La persona",persona,"no puede llegar al lugar indicado")
+        return
+    distanciaF = distanciaF - destino[3] + dirPersona[0][3]
     if dirPersona != None and camino != None:
         dirP = dirPersona[0]   #dir = [ex,dx,ey,dy]
         montoP = dirPersona[1]
         ranking = l.LinkedList()
         long = len(dist[1])
-        llegada = int(dirP[2][1:])  #esquina "ey" de la persona (ultima)
+        inicio = int(dirP[2][1:])  #esquina "ey" de la persona (ultima)
         for i in range(0,len(dicC)): #para recorrer el hash de los autos
                 if dicC[i] != None: #si en el slot i no esta vacia la lista
                     dirC = int(dicC[i].head.value[0][2][1:]) #esquina "ey" del auto (ultima)
-                    if llegada == dirC:
-                        dirC = int(dicC[i].head.value[0][0][1:])
-                    monto = dicC[i].head.value[1]
-                    slot = (dirC%long)-1
-                    current = dist[1][slot].head 
-                    long2 = l.length(dist[1][slot])
-                    for j in range(0,long2): #busco en la lista del slot de donde sale el auto la distancia a la persona
-                        if current.value[0] == llegada:
-                            nombre = dicC[i].head.key
-                            element = [nombre,current.value[1],monto] #esquina del auto y monto del auto
-                            q.enqueue_priority(ranking,element,current.value[1]) #value[1] = distancia
-                            break
-                        else:
-                            current = current.nextNode
+                    slot = ms.encontrarSlot(mapa, dirC)
+                    if dist[1][slot].head == None:
+                        continue
+                    else:
+                        node = dist[1][slot].head
+                        found = True
+                        while node != None:
+                            if node.value[0] == inicio:
+                                found = True
+                                break
+                            node = node.nextNode
+                    if found:    
+                        if inicio == dirC:
+                            dirC = int(dicC[i].head.value[0][0][1:])
+                        monto = dicC[i].head.value[1]
+                        slot = (dirC%long)-1
+                        current = dist[1][slot].head 
+                        long2 = l.length(dist[1][slot])
+                        for j in range(0,long2): #busco en la lista del slot de donde sale el auto la distancia a la persona
+                            if current.value[0] == inicio:
+                                nombre = dicC[i].head.key
+                                element = [nombre,current.value[1],monto] #esquina del auto y monto del auto
+                                q.enqueue_priority(ranking,element,current.value[1]) #value[1] = distancia
+                                break
+                            else:
+                                current = current.nextNode
         viaje, lista = verificarMonto(ranking,montoP,dicC)
         if viaje == True:
             uber = lista.head.value[0]
             costo = lista.head.value[1]
             montoFinal = montoP - costo
 
-            print("El camino más corto para llegar a destino:", camino, "con una distancia igual a", distanciaF)
+            print("El camino más corto para llegar a destino con una distancia igual a", distanciaF, "es")
+            l.printLista(camino)
             panelInteractivo(uber, montoFinal, dicP, dicC, destino, persona, lista, montoP)
     else: 
         if dirPersona == None and camino != None:
@@ -103,7 +120,7 @@ def verificarMonto(autos,monto,dicC):
                 cont += 1
             return True, ranking
         else:
-            print("No está en condiciones de pagar ningún auto")
+            print("No está en condiciones de pagar ningún auto, o no hay ningún auto disponible")
             return False, False
 
 
