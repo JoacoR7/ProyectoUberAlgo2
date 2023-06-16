@@ -33,7 +33,7 @@ def serializarArchivo(contenido, nombre):
 #Busco un archivo de texto
 def abrirArchivo(name):
     try:
-        fichero = open(name + ".txt")
+        fichero = open(name)
         found = True
     except FileNotFoundError:
         found = False
@@ -81,6 +81,8 @@ def extraerAristas(fila, secuencia, listaAristas):
         columna += 1
 
 def extraerEsquinasYCalles(datos):
+    if datos[-4:] != ".txt":
+        datos = datos + ".txt"
     _, fichero = abrirArchivo(datos)
     if fichero != None:
         contenido =  fichero.readlines()

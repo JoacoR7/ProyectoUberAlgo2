@@ -32,10 +32,8 @@ def ranking(persona,destino):
     mapaAux = s.buscarArchivo("mapaAux")
     mapa = s.buscarArchivo("mapa")
     dirPersona = um.searchUbiMovil(dicP,persona, 13) #verificar
-    print(destino)
-    print(dirPersona)
-    ex = int(dirPersona[0][0][1:])
-    ey = int(destino[0][1:])
+    ex = int(dirPersona[0][2][1:])
+    ey = int(destino[2][1:])
     camino, distanciaF = g.shortestPath(mapa,mapaAux,ex,ey)
     if dirPersona != None and camino != None:
         dirP = dirPersona[0]   #dir = [ex,dx,ey,dy]
@@ -177,7 +175,8 @@ def direccionAuto(dic, destino, uber):
         current = dic[k].head
         while current != None:
             if current.key == uber:
-                value = destino
+                value = current.value
+                value[0] = destino
                 break
             current = current.nextNode
         current.value = value
